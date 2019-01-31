@@ -1,2 +1,0 @@
-# map
-website mapping image
