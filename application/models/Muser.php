@@ -26,7 +26,6 @@ class Muser extends CI_Model{
 	public function getsingleuserdata($id){
 		if(!empty($id)){
 			$this->db->where(TBL_USERS.'.'.COL_USERNAME, $id);
-			$this->db->join('userinformations ui','ui.'. COL_USERNAME.' = '. TBL_USERS.'.'.COL_USERNAME, 'inner');
 			$data = $this->db->get(TBL_USERS)->row();
 			if($data){
 				return $data;
@@ -35,8 +34,24 @@ class Muser extends CI_Model{
 		}
 	}
 
+	public function checkuserexist($id){
+		if(!empty($id)){
+			$this->db->where(TBL_USERS.'.'.COL_USERNAME, $id);
+			$data = $this->db->get(TBL_USERS)->result_array();
+			if(count($data) > 0){
+				return true;
+			}else{
+				return false;
+			}
+			
+		}
+	}
+
 	public function getroles(){
-		return $this->db->get(TBL_ROLES)->result_array();
+		return $this->db->get('roles')->result_array();
+	}
+	public function getlevels(){
+		return $this->db->get('levels')->result_array();
 	}
 
 	public function saveuser($data){
@@ -148,6 +163,21 @@ class Muser extends CI_Model{
 			}else{
 				return false;
 			}
+		}
+	}
+
+	public function getuserinherit(){
+		$this->db->join('roles', 'roles.roleid = u.roleid', 'left');
+		$this->db->join('levels', 'levels.levelid = u.levelid','left');
+		$data = $this->db->get('users u')->result_array();
+		return $data;
+	}
+
+	public function getuser($username){
+		if(!empty($username)){
+			$this->db->where('username', $username);
+			$data = $this->db->get('users')->row();
+			return $data;
 		}
 	}
 

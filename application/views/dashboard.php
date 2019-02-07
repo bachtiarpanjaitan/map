@@ -1,6 +1,31 @@
-<?php include_once('user_header.php') ?>
+<?php include_once('user_header.php');
+if(!islogin()){
+    redirect('user/viewlogin');
+}
+?>
+<style>
+body{text-align: center;background: #f2f6f8;}
+.img{position:absolute;z-index:20;}
+#mapcontainer{
+    display:inline-block;
+    width:1890; 
+    height:1417;
+    margin: 0 auto; 
+    position:relative; 
+    border:5px solid black; 
+    border-radius: 10px; 
+    box-shadow: 0 5px 50px #333}
+
+#canvas{
+    position:relative;
+    z-index:1;
+}
+</style>
 <div class="col col-md-12 scroll">
-    <img usemap="xmap" src="<?= ASSETS ?>images/map.png" alt="" style="background-color: #fff" width="1890" height="1417">
+    <div id="mapcontainer" style="opacity: 1">
+        <img class="img" usemap="xmap"  alt="canvas" width="1890" height="1417">
+        <canvas id="canvas" style="background:url(<?= ASSETS ?>images/map.png)" width="1890" height="1417" style='border: 1px black solid;position:absolute;top:opx;left:opx; opacity="0.2"'></canvas>
+    </div>
     <map id="xmap" name="xmap"></map>
 </div>
 <!-- Modal -->
@@ -88,7 +113,7 @@ $(document).ready(function () {
         $('#description').attr('readonly');
         $('#unitid').empty();
     }
-
+    var canvas = document.getElementById('canvas');
     $.ajax({
         type: "POST",
         url: "<?= site_url('api/getunits') ?>",
@@ -98,9 +123,9 @@ $(document).ready(function () {
         dataType: "JSON",
         success: function (response) {
             if(response.success == true){
-                console.log(response);
                 var content = "";
                 for(var i=0; i < Object.keys(response.units).length; i++){
+                drawUnit(response.units[i]);
                 content += '<area class="objunit" data-desc="'+ 
                 response.units[i]['unitdescription'] +
                 '" data-title="'+ response.units[i]['unittitle'] +
@@ -114,7 +139,6 @@ $(document).ready(function () {
                 '" alt="obj-'+ i +'" />';
                 }
                 $('#xmap').append(content);
-
                 $('.objunit').click(function (e) {
                     clear();
                     var title = $(this).data('title'); 
@@ -137,6 +161,41 @@ $(document).ready(function () {
         
     });
     
+function drawUnit(data){
+    console.log(data);
+    if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+        var arraycoords = data['unitcoords'].split(',');
+        ctx.beginPath();
+        ctx.globaAlpha="0";
+        switch (data['statusid']) {
+            case "1":
+                ctx.fillStyle= '#00c853' ;
+                break;
+            case "2":
+                ctx.fillStyle= '#ff9800' ;
+                break;
+            case "3":
+                ctx.fillStyle= '#2196f3' ;
+                break;
+            case "4":
+                ctx.fillStyle= '#d50000' ;
+                break;
+            default:
+                ctx.fillStyle= '#000';
+        }
+        
+        // draw image in canvas
+        ctx.moveTo(arraycoords[0],arraycoords[1]);
+        ctx.lineTo(arraycoords[2],arraycoords[3]);
+        ctx.lineTo(arraycoords[4],arraycoords[5]);
+        ctx.lineTo(arraycoords[6],arraycoords[7]);
+        ctx.closePath();
+        var obj = ctx.fill();
+        console.log(ctx);
+    }
+};
    
 });
+
 </script>

@@ -10,7 +10,8 @@ class User_Controller extends CI_Controller {
 			$this->load->model('muser');
 			$this->load->library('session');
 			$this->load->library('form_validation');
-	    }
+			$resp = "";
+	}
 
 	public function viewlogin()
 	{
@@ -19,26 +20,23 @@ class User_Controller extends CI_Controller {
 	}
 
 	public function login(){
-		$username = $this->input->post('Username');
-		$password = $this->input->post('Password');
-		$ajax = $this->input->post('ajax');
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
 		$data['error'] = "";
 
-		$this->form_validation->set_rules('username', 'Username', 'required');
-		$this->form_validation->set_rules('password', 'Password', 'required');
+		$this->form_validation->set_rules('username', 'username', 'required');
+		$this->form_validation->set_rules('password', 'password', 'required');
 
 		if(empty($username)){
 			$data['error'] =  "Username Cannot Be Null, Please fill username.";
 		}
 
 		if(empty($password)){
-			$data['error'] = "Can not Be Null, Please fill password.";
+			$data['error'] = "Password Can not Be Null, Please fill password.";
 		}
 
-		if ($this->form_validation->run() == FALSE){
-
+		if ($this->form_validation->run() == true){
 			$user = $this->muser->getsingleuserdata(trim($username));
-			// var_dump($user);
 			if($user){
 				$issuspend = $user->issuspend;
 				if($issuspend){
@@ -59,14 +57,11 @@ class User_Controller extends CI_Controller {
 					$this->session->set_userdata(COL_USERNAME, $user->username);
 					$this->session->set_userdata(COL_EMAIL, $user->email);
 					$this->session->set_userdata(COL_ROLEID, $user->roleid);
+					$this->session->set_userdata(COL_LEVELID, $user->levelid);
 					$this->session->set_userdata(COL_FULLNAME, $user->fullname);
 					$this->session->set_userdata(COL_ISSUSPEND, $user->issuspend);
 					$this->session->set_userdata(COL_ISLOGIN, TRUE);
-					if(!$ajax){
-						redirect('', 'refresh');
-					}else{
-						successjson("OK",TRUE);
-					}
+					redirect('', 'refresh');
 				}else{
 					$data['error'] = "Your Password do not match.";
 					$this->load->view('login', $data);
@@ -88,5 +83,84 @@ class User_Controller extends CI_Controller {
 
 	public function register(){
 		$this->load->view('register');
+	}
+
+	public function adduser(){
+		$data['roles'] = $this->muser->getroles();
+		$data['level'] = $this->muser->getlevels();
+		$this->load->view('user/adduser',$data);
+	}
+
+	public function saveuser(){
+		$username = $this->input->post('username');
+		$fullaname = $this->input->post('fullname');
+		$email = $this->input->post('email');
+		$level = $this->input->post('level');
+		$role = $this->input->post('role');
+		$telepon = $this->input->post('telepon');
+		$issuspend = $this->input->post('issuspend');
+		$edit = $this->input->post('edit');
+
+		if(!empty($fullaname) && !empty($email) && !empty($level) && !empty($role) && !empty($telepon)){
+			$checkusername = $this->muser->checkuserexist($username);
+			if($checkusername && !$edit){
+				$resp['success'] = false;
+				$resp['message'] = "Username sudah pernah digunakan";
+				echo json_encode($resp);
+				return false;
+			}
+
+			if($edit){
+				$data = array(
+					'fullname' => $fullaname,
+					'email' => $email,
+					'levelid' => $level,
+					'roleid' => $role,
+					'telepon' => $telepon,
+					'password' => md5($username),
+					'issuspend' => $issuspend,
+				);
+			}else{
+				$data = array(
+					'username' => $username,
+					'fullname' => $fullaname,
+					'email' => $email,
+					'levelid' => $level,
+					'roleid' => $role,
+					'telepon' => $telepon,
+					'password' => md5($username),
+					'issuspend' => $issuspend,
+				);
+			}
+			if($edit){
+				$result = $this->muser->updateuser($data,$username);
+			}else{
+				$result = $this->muser->saveuser($data);
+			}
+			if($result){
+				$resp['success'] = true;
+				$resp['message'] = "Data Berhasil Disimpan";
+			}else{
+				$resp['success'] = false;
+				$resp['message'] = "Data Gagal Disimpan";
+			}
+		}
+
+		echo json_encode($resp);
+	}
+
+	function userlist(){
+		$data['users'] = $this->muser->getuserinherit();
+		$this->load->view('user/userlist',$data);
+	}
+
+	function useredit($username){
+		if(!empty($username)){
+			$data['edit'] = true;
+			$data['user'] = $this->muser->getuser($username);
+			$data['roles'] = $this->muser->getroles();
+			$data['level'] = $this->muser->getlevels();
+			$this->load->view('user/adduser', $data);
+		}
 	}
 }

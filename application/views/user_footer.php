@@ -5,7 +5,7 @@
         <footer class="footer">
           <div class="container-fluid clearfix">
             <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018
-              <a href="http://www.bootstrapdash.com/" target="_blank"><?= APPNAME ?></a>. All rights reserved.</span>
+              <a href="#" target="_blank"><?= APPNAME ?></a>. All rights reserved.</span>
           </div>
         </footer>
         <!-- partial -->
@@ -16,17 +16,40 @@
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
+  <!-- <script src="<?= ASSETS ?>js/jquery.min.js"></script>
+  <script src="<?= ASSETS ?>js/bootstrap.min.js"></script>
+  <script src="<?= ASSETS ?>js/jquery.dataTables.min.js"></script> -->
+  <!-- <script src="<?= ASSETS ?>js/swal.js"></script> -->
   <script src="<?= ASSETS ?>vendors/js/vendor.bundle.base.js"></script>
   <script src="<?= ASSETS ?>vendors/js/vendor.bundle.addons.js"></script>
+  <script src="<?= ASSETS ?>js/swal.js"></script>
+  
   <!-- endinject -->
   <!-- Plugin js for this page-->
   <!-- End plugin js for this page-->
   <!-- inject:js -->
-  <script src="<?= ASSETS ?>js/off-canvas.js"></script>
-  <script src="<?= ASSETS ?>js/misc.js"></script>
+  <!-- <script src="<?= ASSETS ?>js/off-canvas.js"></script>
+  <script src="<?= ASSETS ?>js/misc.js"></script> -->
   <!-- endinject -->
   <!-- Custom js for this page-->
   <!-- End custom js for this page-->
 </body>
 
 </html>
+
+<script>
+  $(document).ready(function () {
+    $('#btnsignout').click(function (e) { 
+      $.ajax({
+        type: "POST",
+        url: "<?= site_url('user/logout') ?>",
+        data: {},
+        dataType: "JSON",
+        success: function (response) {
+         
+        }
+      });
+      location.reload();
+    });
+  });
+</script>
