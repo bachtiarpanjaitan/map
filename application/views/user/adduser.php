@@ -82,7 +82,7 @@ if(!islogin()){
               'role': $('#role').val(),
               'telepon': $('#telepon').val(),
               'issuspend': $('#issuspend').val(),
-              'edit': <?= $edit ?>
+              'edit': <?= $edit?'1': '0' ?>
           },
           dataType: "JSON",
           success: function (response) {

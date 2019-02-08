@@ -88,6 +88,7 @@ class User_Controller extends CI_Controller {
 	public function adduser(){
 		$data['roles'] = $this->muser->getroles();
 		$data['level'] = $this->muser->getlevels();
+		$data['edit'] = false;
 		$this->load->view('user/adduser',$data);
 	}
 

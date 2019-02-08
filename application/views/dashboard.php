@@ -59,7 +59,7 @@ body{text-align: center;background: #f2f6f8;}
                         <textarea name="description" id="description" class="form-control" cols="30" rows="10" readonly></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="button" id="editunit" class="btn btn-warning">Edit</button>
+                        <button type="button" class="btn btn-warning editunit">Edit</button>
                         <button type="button" id="saveunit" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
@@ -71,25 +71,26 @@ body{text-align: center;background: #f2f6f8;}
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="fullname">FullName</label>
-                        <input type="text" name="fullname" id="fullname" class="form-control">
+                        <input type="text" name="fullname" id="fullname" class="form-control" readonly>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="text" name="email" id="email" class="form-control">
+                        <input type="text" name="email" id="email" class="form-control" readonly>
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <input type="text" name="address" id="address" class="form-control">
+                        <input type="text" name="address" id="address" class="form-control" readonly>
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone</label>
-                        <input type="text" name="phone" id="phone" class="form-control">
+                        <input type="text" name="phone" id="phone" class="form-control" readonly>
                     </div>
                     <div class="form-group">
                         <label for="info-remarks">Detail</label>
-                        <textarea name="info-remarks" id="info-remarks" class="form-control" cols="30" rows="10"></textarea>
+                        <textarea name="info-remarks" id="info-remarks" class="form-control" cols="30" rows="10" readonly></textarea>
                     </div>
                     <div class="form-group">
+                        <button type="button" class="btn btn-warning editunit">Edit</button>
                         <button type="button" id="saveorder" class="btn btn-primary">Save changes</button>
                     </div>
                     
@@ -150,14 +151,38 @@ $(document).ready(function () {
                     $('#unittitle').val(title);
                     $('#description').val(desc);
                     $('#unitid').val(unitid);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= site_url('api/getorder') ?>",
+                        data: {
+                            id: unitid
+                        },
+                        dataType: "JSON",
+                        success: function (response) {
+                            if(response.book != 'null'){
+                                data = response.book;
+                                $('#fullname').val(data.fullname);
+                                $('#email').val(data.email);
+                                $('#address').val(data.address);
+                                $('#phone').val(data.phone);
+                                $('#info-remarks').val(data.remarks);
+                            }
+                        }
+                    });
                 });
             }
         }
     });
 
-    $('#editunit').click(function (e) { 
+    $('.editunit').click(function (e) { 
         $('#unittitle').removeAttr('readonly');
         $('#description').removeAttr('readonly');
+        $('#fullname').removeAttr('readonly');
+        $('#email').removeAttr('readonly');
+        $('#address').removeAttr('readonly');
+        $('#info-remarks').removeAttr('readonly');
+        $('#phone').removeAttr('readonly');
         
     });
     
@@ -195,6 +220,70 @@ function drawUnit(data){
         console.log(ctx);
     }
 };
+
+$('#saveorder').click(function (e) { 
+    if($('#fullname').val() == ""){
+        swal('error','Fullname tidak boleh kosong','error');
+        return false;
+    }
+    if($('#email').val() == ""){
+        swal('error','Email tidak boleh kosong','error');
+        return false;
+    }
+    if($('#phone').val() == ""){
+        swal('error','Telepon tidak boleh kosong','error');
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "<?= site_url('api/saveorder') ?>",
+        data: {
+            fullname: $('#fullname').val(),
+            email: $('#email').val(),
+            phone: $('#phone').val(),
+            address: $('#address').val(),
+            remarks: $('#info-remarks').val(),
+            unitid: $('#unitid').val()
+        },
+        dataType: "JSON",
+        success: function (response) {
+            if(response.success == true){
+                swal('success','Data Berhasil Disimpan', 'success').then((val) => {
+                location.reload();
+                });
+            }else{
+                swal('error', response.message,'error');
+            }
+        }
+    });    
+});
+
+$('#saveunit').click(function (e) { 
+    if($('#unittitle').val() == ""){
+        swal('error','Nama Unit tidak boleh kosong','error');
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "<?= site_url('api/editunit') ?>",
+        data: {
+            id: $('#unitid').val(),
+            title: $('#unittitle').val(),
+            description: $('#description').val()
+        },
+        dataType: "JSON",
+        success: function (response) {
+            if(response.success == true){
+                swal('success','Data Berhasil Disimpan', 'success').then((val) => {
+                location.reload();
+                });
+            }else{
+                swal('error', response.message,'error');
+            }
+        }
+    });
+    
+});
    
 });
 

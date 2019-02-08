@@ -181,4 +181,57 @@ class Muser extends CI_Model{
 		}
 	}
 
+	public function unithasbooking($unitid){
+		if(!empty($unitid)){
+			$this->db->where('unitid', $unitid);
+			return $this->db->get('books')->result_array();
+		}
+	}
+
+	public function savebook($data){
+		if(!empty($data)){
+			$this->db->insert('books', $data);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function updatebook($data,$id){
+		if(!empty($data) && !empty($id)){
+			$this->db->where('bookid', $id);
+			$this->db->update('books', $data);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function getunit($id){
+		if(!empty($id)){
+			$this->db->where('unitid', $id);
+			return $this->db->get('books')->row();
+		}
+	}
+
+	public function updateunit($data, $id){
+		if(!empty($data) && !empty($id)){
+			$this->db->where('unitid', $id);
+			$this->db->update('units', $data);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function updateunitstatus($data, $id){
+		if(!empty($data) && !empty($id)){
+			$this->db->where('unitid', $id);
+			$this->db->update('units', $data);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }

@@ -25,7 +25,7 @@ if(!islogin()){
                 <td><?= $data['rolename'] ?></td>
                 <td><?= $data['telepon'] ?></td>
                 <td><?= $data['issuspend']?" NON ACTIVE":"ACTIVE" ?></td>
-                <td><a href=""><i class="mdi mdi-delete" style="font-size: 25px"></i></a></td>
+                <td><a class="btndelete" data-username="<?= $data['username'] ?>" style="cursor: pointer"><i class="mdi mdi-delete " style="font-size: 25px"></i></a></td>
             </tr>
             <?php  }  ?>
         </tbody>
@@ -33,3 +33,38 @@ if(!islogin()){
 </div>
 
 <?php $this->load->view('user_footer.php') ?>
+<script>
+    $('#table').dataTable({});
+
+    $(document).ready(function () {
+        $('.btndelete').click(function (e) { 
+           var uname = $(this).data('username');
+            swal("Anda yakin menghapusnya?.", {
+                buttons: {
+                    cancel: 'Tidak',
+                    value: "Ya",
+                    }
+            }).then((value) => {
+               if(value){
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= site_url('api/deleteuser') ?>",
+                        data: {
+                            username: uname
+                        },
+                        dataType: "JSON",
+                        success: function (response) {
+                            if(response.success == true){
+                                swal('success','Data Berhasil Dihapus', 'success').then((val) => {
+                                location.reload();
+                                });
+                            }else{
+                                swal('error', response.message,'error');
+                            }
+                        }
+                    });
+               }
+            });
+        });
+    });
+</script>
