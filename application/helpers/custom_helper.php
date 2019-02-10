@@ -56,3 +56,12 @@ function islogin(){
 		return false;
 	}
 }
+
+function isAdmin(){
+	$ci =& get_instance();
+	if($ci->session->userdata(COL_ROLEID) == ROLE_ADMIN){
+		return true;
+	}else{
+		return false;
+	}
+}

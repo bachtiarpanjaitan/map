@@ -23,7 +23,7 @@ body{text-align: center;background: #f2f6f8;}
 </style>
 <div class="col col-md-12 scroll">
     <div id="mapcontainer" style="opacity: 1">
-        <img class="img" usemap="xmap"  alt="canvas" width="1890" height="1417">
+        <img class="img" usemap="#xmap"  alt="canvas" width="1890" height="1417">
         <canvas id="canvas" style="background:url(<?= ASSETS ?>images/map.png)" width="1890" height="1417" style='border: 1px black solid;position:absolute;top:opx;left:opx; opacity="0.2"'></canvas>
     </div>
     <map id="xmap" name="xmap"></map>
@@ -59,7 +59,7 @@ body{text-align: center;background: #f2f6f8;}
                         <textarea name="description" id="description" class="form-control" cols="30" rows="10" readonly></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-warning editunit">Edit</button>
+                        <button type="button" class="btn btn-warning editunit" data-value="0">Edit</button>
                         <button type="button" id="saveunit" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
@@ -90,7 +90,7 @@ body{text-align: center;background: #f2f6f8;}
                         <textarea name="info-remarks" id="info-remarks" class="form-control" cols="30" rows="10" readonly></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-warning editunit">Edit</button>
+                        <button type="button" class="btn btn-warning editunit" data-value="0">Edit</button>
                         <button type="button" id="saveorder" class="btn btn-primary">Save changes</button>
                     </div>
                     
@@ -175,7 +175,11 @@ $(document).ready(function () {
         }
     });
 
-    $('.editunit').click(function (e) { 
+    $('.editunit').click(function (e) {
+        var value = $('.editunit').data('value');
+        console.log(value);
+       if(value == "0"){
+        $('.editunit').attr('data-value','1'); 
         $('#unittitle').removeAttr('readonly');
         $('#description').removeAttr('readonly');
         $('#fullname').removeAttr('readonly');
@@ -183,6 +187,18 @@ $(document).ready(function () {
         $('#address').removeAttr('readonly');
         $('#info-remarks').removeAttr('readonly');
         $('#phone').removeAttr('readonly');
+       }
+
+       if(value == "1"){
+        $('.editunit').attr('data-value','0');
+        $('#unittitle').attr('readonly','readonly');
+        $('#description').attr('readonly','readonly');
+        $('#fullname').attr('readonly','readonly');
+        $('#email').attr('readonly','readonly');
+        $('#address').attr('readonly','readonly');
+        $('#info-remarks').attr('readonly','readonly');
+        $('#phone').attr('readonly','readonly');
+       }
         
     });
     

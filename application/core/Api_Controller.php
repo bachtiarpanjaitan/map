@@ -112,4 +112,57 @@ class Api_Controller extends CI_Controller {
 			echo json_encode($resp);
 		}
 
+		public function saveunit(){
+			$coords = $this->input->post('unitcoords');
+			$title = $this->input->post('unittitle');
+			$description = $this->input->post('unitdescription');
+			$edit = $this->input->post('edit');
+			$id = $this->input->post('unitid');
+			if(!empty($coords) && !empty($title)){
+				$data = array(
+					'unitcoords' => $coords,
+					'unittitle' => $title,
+					'unitdescription' => $description,
+				);
+
+				if(!$edit){
+					$data['statusid'] = STATUS_ALLOWORDER;
+					$save = $this->muser->saveunit($data);
+				}else{
+					$save = $this->muser->updateunit($data,$id);
+				}
+
+				if($save){
+					$resp['success'] = true;
+				}else{
+					$resp['success'] = false;
+					$resp['message'] = "Data Gagal Disimpan";
+				}
+			}else{
+				$resp['success'] = false;
+				$resp['message'] = "Lengkapi data yang diperlukan";
+			}
+			echo json_encode($resp);
+		}
+
+		public function deleteunit(){
+			$id = $this->input->post('unitid');
+			if(empty($id)){
+				$resp['success'] = false;
+				$resp['message'] = 'Unit belum dipilih';
+				echo json_encode($resp);
+				return;
+			}
+	
+			$result = $this->munit->deleteunit($id);
+			if($result){
+				$resp['success'] = true;
+				$resp['message'] = 'Data berhasil Dihapus';
+			}else{
+				$resp['success'] = false;
+				$resp['message'] = 'Data gagal dihapus';
+			}
+			echo json_encode($resp);
+		}
+
 }

@@ -8,6 +8,7 @@ class User_Controller extends CI_Controller {
 			$this->load->helper('custom_helper');
 			$this->load->helper('url');
 			$this->load->model('muser');
+			$this->load->model('munit');
 			$this->load->library('session');
 			$this->load->library('form_validation');
 			$resp = "";
@@ -163,5 +164,23 @@ class User_Controller extends CI_Controller {
 			$data['level'] = $this->muser->getlevels();
 			$this->load->view('user/adduser', $data);
 		}
+	}
+
+	function addunit(){
+		$data['edit'] = false;
+		$this->load->view('user/addunit',$data);
+	}
+
+	function editunit($id){
+		if(!empty($id)){
+			$data['edit'] = true;
+			$data['unit'] = $this->muser->getwhereunit($id);
+			$this->load->view('user/addunit',$data);
+		}
+	}
+
+	function unitlist(){
+		$data['units'] = $this->munit->getdataunits();
+		$this->load->view('user/unitlist',$data);
 	}
 }

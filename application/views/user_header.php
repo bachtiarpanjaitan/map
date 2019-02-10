@@ -43,7 +43,7 @@
           <li class="nav-item dropdown d-none d-xl-inline-block">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <span class="profile-text">Hello, <?= getuserlogin('username') ?> !</span>
-              <img class="img-xs rounded-circle" src="<?= ASSETS ?>images/faces/face1.jpg" alt="Profile image">
+              <i class="mdi mdi-account-box" style="font-size: 35px"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <a class="dropdown-item p-0">
@@ -78,13 +78,13 @@
             <div class="nav-link">
               <div class="user-wrapper">
                 <div class="profile-image">
-                  <img src="<?= ASSETS ?>images/faces/face1.jpg" alt="profile image">
+                  <i class="mdi mdi-account-box" style="font-size: 35px"></i>
                 </div>
                 <div class="text-wrapper">
                   <p class="profile-name"><?= getuserlogin('username') ?></p>
                   <div>
                     <small class="designation text-muted"><?= getuserlogin('email') ?></small>
-                    <span class="status-indicator online"></span>
+                    <!-- <span class="status-indicator online"></span> -->
                   </div>
                 </div>
               </div>
@@ -96,19 +96,38 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
+          <?php if(isAdmin()){ ?>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <i class="menu-icon mdi mdi-account-circle"></i>
+                <span class="menu-title">User</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                  <a class="nav-link" href="<?= site_url('user/adduser') ?>">Add User</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" href="<?= site_url('user/userlist') ?>">User List</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          <?php } ?>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="menu-icon mdi mdi-account-circle"></i>
-              <span class="menu-title">User</span>
+            <a class="nav-link" data-toggle="collapse" href="#unit" aria-expanded="false" aria-controls="unit">
+              <i class="menu-icon mdi mdi-home"></i>
+              <span class="menu-title">Units</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="unit">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('user/adduser') ?>">Add User</a>
+                <a class="nav-link" href="<?= site_url('user/addunit') ?>">Add Unit</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('user/userlist') ?>">UserList</a>
+                <a class="nav-link" href="<?= site_url('user/unitlist') ?>">Unit List</a>
                 </li>
               </ul>
             </div>

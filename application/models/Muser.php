@@ -210,7 +210,8 @@ class Muser extends CI_Model{
 	public function getunit($id){
 		if(!empty($id)){
 			$this->db->where('unitid', $id);
-			return $this->db->get('books')->row();
+			$data =  $this->db->get('books')->row();
+			return $data;
 		}
 	}
 
@@ -234,4 +235,20 @@ class Muser extends CI_Model{
 		}
 	}
 
+	public function saveunit($data){
+		if(!empty($data)){
+			$this->db->insert('units', $data);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function getwhereunit($id){
+		if(!empty($id)){
+			$this->db->where('unitid', $id);
+			$data =  $this->db->get('units')->row();
+			return $data;
+		}
+	}
 }
