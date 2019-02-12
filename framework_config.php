@@ -14,3 +14,4 @@ define('ROLE_USER', 2);
 define('STATUS_ALLOWORDER', 1);
 define('STATUS_ONBOOKING', 2);
 define('STATUS_MAINTENANCE', 3);
+define('BLOK_ADMIN', 0);

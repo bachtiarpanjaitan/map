@@ -22,7 +22,7 @@ if(!islogin()){
                 <label for="Level">Level</label>
                 <select name="level" id="level" class="form-control" value="<?= $edit? $user->levelid:'' ?>">
                     <?php  foreach ($level as $data) { ?>
-                        <option value="<?= $data['levelid'] ?>"><?= $data['levelname'] ?></option>
+                        <option <?php if($edit && $user->levelid == $data['levelid']){ echo 'selected';}?> value="<?= $data['levelid'] ?>"><?= $data['levelname'] ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -30,13 +30,21 @@ if(!islogin()){
                 <label for="role">Role</label>
                 <select name="role" id="role" class="form-control" value="<?= $edit? $user->roleid:'' ?>">
                     <?php  foreach ($roles as $data) { ?>
-                        <option value="<?= $data['roleid'] ?>"><?= $data['rolename'] ?></option>
+                        <option <?php if($edit && $user->roleid == $data['roleid']){ echo 'selected';}?> value="<?= $data['roleid'] ?>"><?= $data['rolename'] ?></option>
                     <?php } ?>
                 </select>
             </div>
             <div class="form-group">
                 <label for="telepon">Telepon</label>
                 <input type="text" placeholder="Enter Phone" id="telepon" class="form-control" value="<?= $edit? $user->telepon:'' ?>">
+            </div>
+            <div class="form-group">
+                <label for="telepon">Akses Blok</label>
+                <select name="blokid" id="blokid" class="form-control" value="<?= $edit? $user->blokid:'' ?>">
+                    <?php  foreach ($bloks as $data) { ?>
+                        <option <?php if($edit && $user->blokid == $data['blokid']){ echo 'selected';}?> value="<?= $data['blokid'] ?>"><?= $data['blokname'] ?></option>
+                    <?php } ?>
+                </select>
             </div>
             <div class="form-group">
                 <input type="checkbox" name="issuspend" id="issuspend" value="<?= $edit? $user->issuspend:'' ?>"> Is Suspend
@@ -82,6 +90,7 @@ if(!islogin()){
               'role': $('#role').val(),
               'telepon': $('#telepon').val(),
               'issuspend': $('#issuspend').val(),
+              'blok': $('#blokid').val(),
               'edit': <?= $edit?'1': '0' ?>
           },
           dataType: "JSON",

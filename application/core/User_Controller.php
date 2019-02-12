@@ -61,6 +61,7 @@ class User_Controller extends CI_Controller {
 					$this->session->set_userdata(COL_LEVELID, $user->levelid);
 					$this->session->set_userdata(COL_FULLNAME, $user->fullname);
 					$this->session->set_userdata(COL_ISSUSPEND, $user->issuspend);
+					$this->session->set_userdata('blokid', $user->blokid);
 					$this->session->set_userdata(COL_ISLOGIN, TRUE);
 					redirect('', 'refresh');
 				}else{
@@ -89,6 +90,7 @@ class User_Controller extends CI_Controller {
 	public function adduser(){
 		$data['roles'] = $this->muser->getroles();
 		$data['level'] = $this->muser->getlevels();
+		$data['bloks'] = $this->muser->getbloks();
 		$data['edit'] = false;
 		$this->load->view('user/adduser',$data);
 	}
@@ -101,6 +103,7 @@ class User_Controller extends CI_Controller {
 		$role = $this->input->post('role');
 		$telepon = $this->input->post('telepon');
 		$issuspend = $this->input->post('issuspend');
+		$blok = $this->input->post('blok');
 		$edit = $this->input->post('edit');
 
 		if(!empty($fullaname) && !empty($email) && !empty($level) && !empty($role) && !empty($telepon)){
@@ -121,6 +124,7 @@ class User_Controller extends CI_Controller {
 					'telepon' => $telepon,
 					'password' => md5($username),
 					'issuspend' => $issuspend,
+					'blokid' => $blok
 				);
 			}else{
 				$data = array(
@@ -132,6 +136,7 @@ class User_Controller extends CI_Controller {
 					'telepon' => $telepon,
 					'password' => md5($username),
 					'issuspend' => $issuspend,
+					'blokid' => $blok
 				);
 			}
 			if($edit){
@@ -162,12 +167,14 @@ class User_Controller extends CI_Controller {
 			$data['user'] = $this->muser->getuser($username);
 			$data['roles'] = $this->muser->getroles();
 			$data['level'] = $this->muser->getlevels();
+			$data['bloks'] = $this->muser->getbloks();
 			$this->load->view('user/adduser', $data);
 		}
 	}
 
 	function addunit(){
 		$data['edit'] = false;
+		$data['bloks'] = $this->muser->getbloks();
 		$this->load->view('user/addunit',$data);
 	}
 
@@ -175,6 +182,7 @@ class User_Controller extends CI_Controller {
 		if(!empty($id)){
 			$data['edit'] = true;
 			$data['unit'] = $this->muser->getwhereunit($id);
+			$data['bloks'] = $this->muser->getbloks();
 			$this->load->view('user/addunit',$data);
 		}
 	}
@@ -184,7 +192,23 @@ class User_Controller extends CI_Controller {
 		$this->load->view('user/unitlist',$data);
 	}
 
+	function bloklist(){
+		$data['bloks'] = $this->munit->getdatabloks();
+		$this->load->view('user/bloklist',$data);
+	}
+
 	function changepassword(){
 		$this->load->view('user/changepassword');
+	}
+	function addblok(){
+		$data['edit'] = false;
+		$this->load->view('user/addblok', $data);
+	}
+	function blokedit($id){
+		if(!empty($id)){
+			$data['edit'] = true;
+			$data['blok'] = $this->muser->getwhereblok($id);
+			$this->load->view('user/addblok',$data);
+		}
 	}
 }

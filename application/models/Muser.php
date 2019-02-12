@@ -251,4 +251,48 @@ class Muser extends CI_Model{
 			return $data;
 		}
 	}
+
+	public function getbloks($id = ""){
+		if(!empty($id)){
+			$this->db->get('blokid',$id);
+		}
+
+		return $this->db->get('bloks')->result_array();
+
+	}
+	public function updateblok($data, $id){
+		if(!empty($data) && !empty($id)){
+			$this->db->where('blokid', $id);
+			$this->db->update('bloks', $data);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function saveblok($data){
+		if(!empty($data)){
+			$this->db->insert('bloks', $data);
+			return true;
+		}else{
+			return false;
+		}
+	}
+	public function getwhereblok($id){
+		if(!empty($id)){
+			$this->db->where('blokid', $id);
+			$data =  $this->db->get('bloks')->row();
+			return $data;
+		}
+	}
+	public function deleteblok($id){
+		if($id){
+			$this->db->where('blokid', $id);
+			if($this->db->delete('bloks')){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
 }

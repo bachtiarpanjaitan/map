@@ -117,6 +117,23 @@
                 </ul>
               </div>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#blok" aria-expanded="false" aria-controls="blok">
+                <i class="menu-icon mdi mdi-city"></i>
+                <span class="menu-title">Blok</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="blok">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                  <a class="nav-link" href="<?= site_url('user/addblok') ?>">Add Blok</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" href="<?= site_url('user/bloklist') ?>">BLok List</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
           <?php } ?>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#unit" aria-expanded="false" aria-controls="unit">

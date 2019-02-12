@@ -116,12 +116,14 @@ class Api_Controller extends CI_Controller {
 			$coords = $this->input->post('unitcoords');
 			$title = $this->input->post('unittitle');
 			$description = $this->input->post('unitdescription');
+			$blokid = $this->input->post('blokid');
 			$edit = $this->input->post('edit');
 			$id = $this->input->post('unitid');
 			if(!empty($coords) && !empty($title)){
 				$data = array(
 					'unitcoords' => $coords,
 					'unittitle' => $title,
+					'blokid' => $blokid,
 					'unitdescription' => $description,
 				);
 
@@ -186,6 +188,53 @@ class Api_Controller extends CI_Controller {
 					$resp['success'] = false;
 					$resp['message'] = "Password Gagal Disimpan";
 				}
+			}
+			echo json_encode($resp);
+		}
+		public function saveblok(){
+			$blokname = $this->input->post('blokname');
+			$edit = $this->input->post('edit');
+			$id = $this->input->post('blokid');
+			if(!empty($blokname)){
+				$data = array(
+					'blokname' => $blokname,
+				);
+
+				if(!$edit){
+					$save = $this->muser->saveblok($data);
+				}else{
+					$save = $this->muser->updateblok($data,$id);
+				}
+
+				if($save){
+					$resp['success'] = true;
+				}else{
+					$resp['success'] = false;
+					$resp['message'] = "Data Gagal Disimpan";
+				}
+			}else{
+				$resp['success'] = false;
+				$resp['message'] = "Lengkapi data yang diperlukan";
+			}
+			echo json_encode($resp);
+		}
+
+		public function deleteblok(){
+			$id = $this->input->post('id');
+			if(empty($id)){
+				$resp['success'] = false;
+				$resp['message'] = 'Unit belum dipilih';
+				echo json_encode($resp);
+				return;
+			}
+	
+			$result = $this->muser->deleteblok($id);
+			if($result){
+				$resp['success'] = true;
+				$resp['message'] = 'Data berhasil Dihapus';
+			}else{
+				$resp['success'] = false;
+				$resp['message'] = 'Data gagal dihapus';
 			}
 			echo json_encode($resp);
 		}

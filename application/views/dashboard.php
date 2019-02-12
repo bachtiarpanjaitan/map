@@ -137,12 +137,20 @@ $(document).ready(function () {
                 '" data-statusname="'+ response.units[i]['statusname'] +
                 '" data-statusid="'+ response.units[i]['statusid'] +
                 '" data-unit="'+ response.units[i]['unitid'] +
+                '" data-blok="'+ response.units[i]['blokid'] +
                 '" alt="obj-'+ i +'" />';
                 }
                 $('#xmap').append(content);
                 $('.objunit').click(function (e) {
                     clear();
                     var title = $(this).data('title'); 
+                    var blok = $(this).data('blok'); 
+                    if('<?= getuserlogin('blokid') ?>' != <?= BLOK_ADMIN ?>){
+                        if(blok != '<?= getuserlogin('blokid') ?>'){
+                        swal('error','Anda Tidak Diizinkan mengakses Informasi ini','error');
+                        return false;
+                        }
+                    }
                     var desc = $(this).data('desc');
                     var statusname = $(this).data('statusname'); 
                     var unitid = $(this).data('unit');

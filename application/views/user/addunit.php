@@ -17,6 +17,14 @@ if(!islogin()){
             <input type="text" name="unittitle" class="form-control" id="unittitle"  value="<?= $edit? $unit->unittitle:'' ?>" required>
         </div>
         <div class="form-group">
+            <label for="telepon">Blok</label>
+            <select name="blokid" id="blokid" class="form-control" value="<?= $edit? $user->blokid:'' ?>">
+                <?php  foreach ($bloks as $data) { ?>
+                    <option <?php if($edit && $unit->blokid == $data['blokid']){ echo 'selected';}?> value="<?= $data['blokid'] ?>"><?= $data['blokname'] ?></option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="unitdescription">Unit Description</label>
             <textarea type="text" name="unitdescription" class="form-control" id="unitdescription" required rows="10" col=""><?= $edit? $unit->unitdescription:'' ?></textarea>
         </div>
@@ -44,6 +52,7 @@ if(!islogin()){
                    'unitcoords': $('#ünitcoords').val(),
                    'unittitle':$('#unittitle').val(),
                    'unitdescription': $('#unitdescription').val(),
+                   'blokid':$('#blokid').val(),
                    'unitid': $('#unitid').val(),
                    'edit': '<?= $edit?>'
                },
