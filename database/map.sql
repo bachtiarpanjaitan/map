@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2019 at 11:24 AM
+-- Generation Time: Feb 12, 2019 at 04:57 PM
 -- Server version: 5.7.14
 -- PHP Version: 7.0.10
 
@@ -19,6 +19,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `map`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bloks`
+--
+
+CREATE TABLE `bloks` (
+  `blokid` int(11) NOT NULL,
+  `blokname` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bloks`
+--
+
+INSERT INTO `bloks` (`blokid`, `blokname`) VALUES
+(1, 'Blok S'),
+(2, 'Blok P'),
+(3, 'Blok B'),
+(4, 'Blok U'),
+(5, 'Blok T'),
+(0, 'Allow All');
 
 -- --------------------------------------------------------
 
@@ -115,15 +138,16 @@ CREATE TABLE `units` (
   `unitcoords` text NOT NULL,
   `unittitle` text NOT NULL,
   `unitdescription` text,
-  `statusid` int(11) NOT NULL DEFAULT '1'
+  `statusid` int(11) NOT NULL DEFAULT '1',
+  `blokid` int(11) DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `units`
 --
 
-INSERT INTO `units` (`unitid`, `unitcoords`, `unittitle`, `unitdescription`, `statusid`) VALUES
-(1, '562,470,562,478,574,476,573,468', 'S-11-A Edit', 'Testing Edit Lagi', 1);
+INSERT INTO `units` (`unitid`, `unitcoords`, `unittitle`, `unitdescription`, `statusid`, `blokid`) VALUES
+(1, '562,470,562,478,574,476,573,468', 'S-11-A Edit', 'Testing Edit Lagi', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -139,20 +163,27 @@ CREATE TABLE `users` (
   `levelid` int(11) NOT NULL,
   `roleid` int(11) NOT NULL,
   `telepon` text NOT NULL,
-  `issuspend` tinyint(1) NOT NULL DEFAULT '0'
+  `issuspend` tinyint(1) NOT NULL DEFAULT '0',
+  `blokid` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`username`, `fullname`, `email`, `password`, `levelid`, `roleid`, `telepon`, `issuspend`) VALUES
-('user', 'user', 'user@gmail.com', 'ee11cbb19052e40b07aac0ca060c23ee', 3, 2, '08123123123', 0),
-('admin', 'asdas awdwd', 'asdadsa@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 1, 1, '08123123', 0);
+INSERT INTO `users` (`username`, `fullname`, `email`, `password`, `levelid`, `roleid`, `telepon`, `issuspend`, `blokid`) VALUES
+('user', 'user', 'user@gmail.com', 'ee11cbb19052e40b07aac0ca060c23ee', 3, 2, '08123123123', 0, 2),
+('admin', 'asdas awdwd', 'asdadsa@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 2, 1, '08123123', 0, 0);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `bloks`
+--
+ALTER TABLE `bloks`
+  ADD PRIMARY KEY (`blokid`);
 
 --
 -- Indexes for table `books`
@@ -194,6 +225,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `bloks`
+--
+ALTER TABLE `bloks`
+  MODIFY `blokid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `books`
 --
