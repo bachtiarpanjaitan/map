@@ -59,6 +59,9 @@
                   </div>
                 </div>
               </a>
+              <a class="dropdown-item" style="cursor: pointer" href="<?= site_url('user/changepassword') ?>">
+                Change Password
+              </a>
               <a class="dropdown-item" style="cursor: pointer" id="btnsignout">
                 Sign Out
               </a>

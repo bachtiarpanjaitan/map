@@ -183,4 +183,8 @@ class User_Controller extends CI_Controller {
 		$data['units'] = $this->munit->getdataunits();
 		$this->load->view('user/unitlist',$data);
 	}
+
+	function changepassword(){
+		$this->load->view('user/changepassword');
+	}
 }

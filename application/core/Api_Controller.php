@@ -165,4 +165,29 @@ class Api_Controller extends CI_Controller {
 			echo json_encode($resp);
 		}
 
+		public function changepassword(){
+			$cpassword = $this->input->post('cpassword');
+			$password = $this->input->post('password');
+			$user = $this->muser->getsingleuserdata(getuserlogin('username'));
+			if(md5($cpassword) != $user->password){
+				$resp['message'] = "Password aktif yang anda masukkan tidak dikenali, masukkan password sekarang.";
+				$resp['success'] = false;
+				echo json_encode($resp);
+				return;
+			}
+			if(!empty($password)){
+				$data = array(
+					'password' => md5($password)
+				);
+				$res = $this->muser->updateuser($data, getuserlogin('username'));
+				if($res){
+					$resp['success'] = true;
+				}else{
+					$resp['success'] = false;
+					$resp['message'] = "Password Gagal Disimpan";
+				}
+			}
+			echo json_encode($resp);
+		}
+
 }
