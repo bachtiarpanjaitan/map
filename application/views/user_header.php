@@ -134,8 +134,7 @@
                 </ul>
               </div>
             </li>
-          <?php } ?>
-          <li class="nav-item">
+            <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#unit" aria-expanded="false" aria-controls="unit">
               <i class="menu-icon mdi mdi-home"></i>
               <span class="menu-title">Units</span>
@@ -152,6 +151,7 @@
               </ul>
             </div>
           </li>
+          <?php } ?>
         </ul>
       </nav>
       
