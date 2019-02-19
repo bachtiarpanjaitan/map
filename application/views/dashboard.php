@@ -145,7 +145,7 @@ $(document).ready(function () {
                     clear();
                     var title = $(this).data('title'); 
                     var blok = $(this).data('blok'); 
-                    if('<?= getuserlogin('blokid') ?>' != <?= BLOK_ADMIN ?>){
+                    if('<?= getuserlogin('blokid') ?>' != '<?= BLOK_ADMIN ?>'){
                         if(blok != '<?= getuserlogin('blokid') ?>'){
                         swal('error','Anda Tidak Diizinkan mengakses Informasi ini','error');
                         return false;

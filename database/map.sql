@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2019 at 04:57 PM
+-- Generation Time: Feb 19, 2019 at 01:51 PM
 -- Server version: 5.7.14
 -- PHP Version: 7.0.10
 
@@ -64,7 +64,7 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`bookid`, `unitid`, `fullname`, `email`, `address`, `phone`, `remarks`) VALUES
-(6, 1, 'jack mamba2', 'asdadsa@gmail.com', 'Medan Belawan', '08123123', 'asdasdf'),
+(6, 1, 'jack mamba2', 'asdadsa@gmail.com', 'Medan Belawan', '08123123', 'asdasdf asd'),
 (2, 2, 'Paramitha', 'paramita@gmail.com', 'medan', '08123123', 'Testing insert from form');
 
 -- --------------------------------------------------------
@@ -147,7 +147,7 @@ CREATE TABLE `units` (
 --
 
 INSERT INTO `units` (`unitid`, `unitcoords`, `unittitle`, `unitdescription`, `statusid`, `blokid`) VALUES
-(1, '562,470,562,478,574,476,573,468', 'S-11-A Edit', 'Testing Edit Lagi', 1, 5);
+(1, '562,470,562,478,574,476,573,468', 'S-11-A Edit', 'Testing Edit Lagi', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -173,7 +173,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`username`, `fullname`, `email`, `password`, `levelid`, `roleid`, `telepon`, `issuspend`, `blokid`) VALUES
 ('user', 'user', 'user@gmail.com', 'ee11cbb19052e40b07aac0ca060c23ee', 3, 2, '08123123123', 0, 2),
-('admin', 'asdas awdwd', 'asdadsa@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 2, 1, '08123123', 0, 0);
+('admin', 'asdas awdwd', 'asdadsa@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 2, 1, '08123123', 0, 0),
+('Test', 'test', 'test@gmail.com', '0cbc6611f5540bd0809a388dc95a615b', 2, 2, '08123123123', 0, 1);
 
 --
 -- Indexes for dumped tables
