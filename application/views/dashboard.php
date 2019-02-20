@@ -58,10 +58,12 @@ body{text-align: center;background: #f2f6f8;}
                         <label for="description">Detail</label>
                         <textarea name="description" id="description" class="form-control" cols="30" rows="10" readonly></textarea>
                     </div>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-warning editunit" data-value="0">Edit</button>
-                        <button type="button" id="saveunit" class="btn btn-primary">Save changes</button>
-                    </div>
+                    <?php if(isAdmin()){ ?>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-warning editunit" data-value="0">Edit</button>
+                            <button type="button" id="saveunit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
             <!-- END UNIT INFO -->
@@ -89,10 +91,12 @@ body{text-align: center;background: #f2f6f8;}
                         <label for="info-remarks">Detail</label>
                         <textarea name="info-remarks" id="info-remarks" class="form-control" cols="30" rows="10" readonly></textarea>
                     </div>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-warning editunit" data-value="0">Edit</button>
-                        <button type="button" id="saveorder" class="btn btn-primary">Save changes</button>
-                    </div>
+                    <?php if(isAdmin()){ ?>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-warning editunit" data-value="0">Edit</button>
+                            <button type="button" id="saveorder" class="btn btn-primary">Save changes</button>
+                        </div>
+                    <?php } ?>
                     
                 </div>
             </div>
