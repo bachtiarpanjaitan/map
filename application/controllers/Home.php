@@ -9,8 +9,14 @@ class Home extends CI_Controller {
     }
 
   public function index(){
-  	$data['user'] = $this->muser->getuserdata();
-		$this->load->view('dashboard',$data);
+    if(isCustomer()){
+      $data['user'] = $this->muser->getuserdata();
+      $this->load->view('customerdashboard',$data);
+    }else{
+      $data['user'] = $this->muser->getuserdata();
+      $this->load->view('dashboard',$data);
+    }
+  	
 	}
 
 

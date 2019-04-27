@@ -211,4 +211,17 @@ class User_Controller extends CI_Controller {
 			$this->load->view('user/addblok',$data);
 		}
 	}
+
+	function addrequest(){
+		$data['edit'] = false;
+		$data['bloks'] = $this->muser->getbloks();
+		$data['users'] = $this->muser->getuser();
+		$data['requesttypes'] = $this->muser->getrequesttype();
+		$data['unittypes'] = $this->muser->getunittype();
+		$this->load->view('user/newrequest',$data);
+	}
+
+	function addrequestunit(){
+		$this->load->view('user/requestunit');
+	}
 }

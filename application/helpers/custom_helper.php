@@ -59,7 +59,19 @@ function islogin(){
 
 function isAdmin(){
 	$ci =& get_instance();
+	$ci->load->library('session');
 	if($ci->session->userdata(COL_ROLEID) == ROLE_ADMIN){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function isCustomer(){
+	$ci =& get_instance();
+	$ci->load->library('session');
+	// var_dump($ci->session->userdata(COL_ROLEID));
+	if($ci->session->userdata(COL_ROLEID) == ROLE_CUSTOMER){
 		return true;
 	}else{
 		return false;

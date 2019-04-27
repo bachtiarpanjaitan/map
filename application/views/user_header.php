@@ -7,10 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title><?= APPNAME ?></title>
   <!-- plugins:css -->
+  <link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic"
+	 rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="<?= ASSETS ?>vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="<?= ASSETS ?>vendors/fontawesome/css/font-awesome.min.css">
+  	<link rel="stylesheet" href="<?= ASSETS ?>vendors/themify-icons/themify-icons.min.css">
   <link rel="stylesheet" href="<?= ASSETS ?>vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="<?= ASSETS ?>vendors/css/vendor.bundle.addons.css">
   <link rel="stylesheet" href="<?= ASSETS ?>css/custom.css">
+  <link rel="stylesheet" href="<?= ASSETS ?>vendors/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css">
   <!-- endinject -->
   <!-- plugin css for this page -->
   <!-- End plugin css for this page -->

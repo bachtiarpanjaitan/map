@@ -239,4 +239,21 @@ class Api_Controller extends CI_Controller {
 			echo json_encode($resp);
 		}
 
+		public function getunit(){
+			$id = $this->input->post('blokid');
+
+			if(!empty($id)){
+				$result = $this->muser->getunits($id);
+				if($result){
+					$resp['success'] = true;
+					$resp['data'] = $result;
+				}else{
+					$resp['success'] = false;
+				}
+			}
+
+			echo json_encode($resp);
+
+		}
+
 }

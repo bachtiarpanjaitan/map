@@ -173,11 +173,13 @@ class Muser extends CI_Model{
 		return $data;
 	}
 
-	public function getuser($username){
+	public function getuser($username = ""){
 		if(!empty($username)){
 			$this->db->where('username', $username);
 			$data = $this->db->get('users')->row();
 			return $data;
+		}else{
+			return $this->db->get('users')->result_array();
 		}
 	}
 
@@ -211,6 +213,14 @@ class Muser extends CI_Model{
 		if(!empty($id)){
 			$this->db->where('unitid', $id);
 			$data =  $this->db->get('books')->row();
+			return $data;
+		}
+	}
+
+	public function getunits($id){
+		if(!empty($id)){
+			$this->db->where('unitid', $id);
+			$data =  $this->db->get('units')->result_array();
 			return $data;
 		}
 	}
@@ -295,4 +305,13 @@ class Muser extends CI_Model{
 			}
 		}
 	}
+
+	public function getrequesttype(){
+		return $this->db->get('requesttypes')->result_array();
+	}
+
+	public function getunittype(){
+		return $this->db->get('unittypes')->result_array();
+	}
+
 }
