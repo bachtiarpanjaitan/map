@@ -62,6 +62,8 @@ class User_Controller extends CI_Controller {
 					$this->session->set_userdata(COL_FULLNAME, $user->fullname);
 					$this->session->set_userdata(COL_ISSUSPEND, $user->issuspend);
 					$this->session->set_userdata('blokid', $user->blokid);
+					$this->session->set_userdata('allowapproverequest', $user->allowapproverequest);
+					$this->session->set_userdata('telepon', $user->telepon);
 					$this->session->set_userdata(COL_ISLOGIN, TRUE);
 					redirect('', 'refresh');
 				}else{
@@ -222,6 +224,25 @@ class User_Controller extends CI_Controller {
 	}
 
 	function addrequestunit(){
-		$this->load->view('user/requestunit');
+		$data['edit'] = false;
+		$this->load->view('user/requestunit', $data);
+	}
+
+	function listrequestdetail(){
+		$data['requests'] = $this->muser->getrequest();
+		$this->load->view('user/requestdetaillist',$data);
+	}
+
+	function editrequestdetail($id){
+		if(!empty($id)){
+			$data['edit'] = true;
+			$data['bloks'] = $this->muser->getbloks();
+			$data['users'] = $this->muser->getuser();
+			$data['requesttypes'] = $this->muser->getrequesttype();
+			$data['unittypes'] = $this->muser->getunittype();
+			$data['request'] = $this->muser->getwhererequest($id)[0];
+			// var_dump($data);
+			$this->load->view('user/newrequest',$data);
+		}
 	}
 }

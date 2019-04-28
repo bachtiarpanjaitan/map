@@ -24,6 +24,7 @@
   <script src="<?= ASSETS ?>vendors/js/vendor.bundle.addons.js"></script>
   <script src="<?= ASSETS ?>js/swal.js"></script>
   <script src="<?= ASSETS ?>vendors/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+  <script src="<?= ASSETS ?>vendors/dropzone/min/dropzone.min.js"></script>
   
   <!-- endinject -->
   <!-- Plugin js for this page-->

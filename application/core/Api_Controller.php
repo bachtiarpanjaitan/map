@@ -256,4 +256,91 @@ class Api_Controller extends CI_Controller {
 
 		}
 
+		function uploadimage(){
+			$filename = $this->input->post('base64');
+			if(!empty($filename)){
+				$image_parts = explode(";base64,", $filename);
+				$image_type_aux = explode("image/", $image_parts[0]); 
+				$image_type = $image_type_aux[1];  
+				$image_base64 = base64_decode($image_parts[1]);
+				$name = uniqid() . '.'.$image_type;
+				$file = realpath('assets/images').'/'.$name ;
+				file_put_contents($file, $image_base64);
+				$data = array(
+					'filename' => $name,
+					'realpath' => $file,
+					'success' => true
+				);
+				
+			}else{
+				$data = array('success' => false);
+			}
+			echo json_encode($data);
+		}
+		
+		function saverequestdetail(){
+			$requesttypeid = $this->input->post('requesttypeid');
+			$unittypeid = $this->input->post('unittypeid');
+			$blokid = $this->input->post('blokid');
+			$unitid = $this->input->post('unitid');
+			$telepon = $this->input->post('telepon');
+			$username = $this->input->post('username');
+			$checkindate = $this->input->post('checkindate');
+			$checkoutdate = $this->input->post('checkoutdate');
+			$images = $this->input->post('images');
+			$edit = $this->input->post('edit');
+			$id = $this->input->post('id');
+
+			if(!empty($requesttypeid) && !empty($unittypeid) && !empty($blokid) && !empty($unitid) && !empty($username) && !empty($checkindate) && !empty($checkoutdate)){
+				$data = array(
+					'requesttypeid' => $requesttypeid,
+					'username' => $username,
+					'unittypeid' => $unittypeid,
+					'blokid' => $blokid,
+					'checkindate' => $checkindate,
+					'checkoutdate' => $checkoutdate,
+					'unitid' => $unitid,
+					'marriagecertificate' => $images,
+					'createdby' => getuserlogin('username'),
+				);
+
+				if(!$edit){
+					$save = $this->muser->saverequestdetail($data);
+				}else{
+					$data['updatedby'] = getuserlogin('username');
+					$save = $this->muser->updaterequestdetail($data,$id);
+				}
+
+				if($save){
+					$resp['success'] = true;
+				}else{
+					$resp['success'] = false;
+					$resp['message'] = "Data Gagal Disimpan";
+				}
+
+			}
+			echo json_encode($resp);
+
+		}
+
+		public function deleterequestdetail(){
+			$id = $this->input->post('id');
+			if(empty($id)){
+				$resp['success'] = false;
+				$resp['message'] = 'Request belum dipilih';
+				echo json_encode($resp);
+				return;
+			}
+	
+			$result = $this->muser->deleterequest($id);
+			if($result){
+				$resp['success'] = true;
+				$resp['message'] = 'Data berhasil Dihapus';
+			}else{
+				$resp['success'] = false;
+				$resp['message'] = 'Data gagal dihapus';
+			}
+			echo json_encode($resp);
+		}
+
 }

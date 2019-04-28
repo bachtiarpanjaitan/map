@@ -140,23 +140,63 @@
               </div>
             </li>
             <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#unit" aria-expanded="false" aria-controls="unit">
+              <a class="nav-link" data-toggle="collapse" href="#unit" aria-expanded="false" aria-controls="unit">
+                <i class="menu-icon mdi mdi-home"></i>
+                <span class="menu-title">Units</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="unit">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                  <a class="nav-link" href="<?= site_url('user/addunit') ?>">Add Unit</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" href="<?= site_url('user/unitlist') ?>">Unit List</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <?php if(getuserlogin('allowapproverequest') == true){ ?>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#approval" aria-expanded="false" aria-controls="unit">
+                <i class="menu-icon mdi mdi-home"></i>
+                <span class="menu-title">Approval</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="approval">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                  <a class="nav-link" href="<?= site_url('user/approvallist') ?>">Request List</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <?php } ?>
+          <?php } ?>
+          
+            <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#request" aria-expanded="false" aria-controls="unit">
               <i class="menu-icon mdi mdi-home"></i>
-              <span class="menu-title">Units</span>
+              <span class="menu-title">Request</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="unit">
+            <div class="collapse" id="request">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('user/addunit') ?>">Add Unit</a>
+                <a class="nav-link" href="<?= site_url('user/addrequest') ?>">Add Request</a>
                 </li>
-                <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('user/unitlist') ?>">Unit List</a>
-                </li>
+                <?php if(isCustomer()){ ?>
+                  <li class="nav-item">
+                  <a class="nav-link" href="<?= site_url('user/customerrequestlist') ?>">My Unit Request</a>
+                  </li>
+                <?php }else{ ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?= site_url('user/listrequestdetail') ?>">Request List</a>
+                  </li>
+                <?php } ?>
               </ul>
             </div>
           </li>
-          <?php } ?>
         </ul>
       </nav>
       

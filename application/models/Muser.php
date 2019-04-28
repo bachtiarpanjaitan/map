@@ -314,4 +314,55 @@ class Muser extends CI_Model{
 		return $this->db->get('unittypes')->result_array();
 	}
 
+	public function saverequestdetail($data){
+		if(!empty($data)){
+			$this->db->insert('requestdetails', $data);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function updaterequestdetail($data, $id){
+		if(!empty($data) && !empty($id)){
+			$this->db->where('requestdetailid', $id);
+			$this->db->update('requestdetails', $data);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function getwhererequest($id){
+		if(!empty($id)){
+			
+			$this->db->select('requestdetails.*');
+			$this->db->select('users.telepon');
+			$this->db->join('users','users.'. COL_USERNAME.' = '. 'requestdetails.username', 'inner');
+			$this->db->where('requestdetailid', $id);
+			$result = $this->db->get('requestdetails')->result_array();
+			// var_dump($result);
+			// return;
+			return $result;
+		}else{
+			return false;
+		}
+	}
+
+	public function getrequest(){
+		return $this->db->get('requestdetails')->result_array();
+	}
+
+	public function deleterequest($id){
+		if($id){
+			$this->db->where('requestdetailid', $id);
+			var_dump($id);
+			if($this->db->delete('requestdetails')){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
+
 }
