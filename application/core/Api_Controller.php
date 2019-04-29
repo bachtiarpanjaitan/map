@@ -362,10 +362,10 @@ class Api_Controller extends CI_Controller {
 				$result = $this->muser->updaterequestdetail($selectedrequest,$id);
 				if($result){
 					$resp['success'] = true;
-					$resp['message'] = 'Data berhasil Dihapus';
+					$resp['message'] = 'Data berhasil Disimpan';
 				}else{
 					$resp['success'] = false;
-					$resp['message'] = 'Data gagal dihapus';
+					$resp['message'] = 'Data gagal disimpan';
 				}
 			}else{
 				$resp['success'] = false;
