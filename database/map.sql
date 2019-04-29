@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Feb 19, 2019 at 01:51 PM
--- Server version: 5.7.14
--- PHP Version: 7.0.10
+-- Host: 127.0.0.1:3306
+-- Waktu pembuatan: 29 Apr 2019 pada 15.52
+-- Versi server: 5.7.24
+-- Versi PHP: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -23,16 +25,40 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bloks`
+-- Struktur dari tabel `approvalstatus`
 --
 
-CREATE TABLE `bloks` (
-  `blokid` int(11) NOT NULL,
-  `blokname` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `approvalstatus`;
+CREATE TABLE IF NOT EXISTS `approvalstatus` (
+  `approvalstatusid` int(11) NOT NULL AUTO_INCREMENT,
+  `approvalstatusname` varchar(10) NOT NULL,
+  PRIMARY KEY (`approvalstatusid`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `bloks`
+-- Dumping data untuk tabel `approvalstatus`
+--
+
+INSERT INTO `approvalstatus` (`approvalstatusid`, `approvalstatusname`) VALUES
+(1, 'Pending'),
+(2, 'Approved'),
+(3, 'Rejected');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `bloks`
+--
+
+DROP TABLE IF EXISTS `bloks`;
+CREATE TABLE IF NOT EXISTS `bloks` (
+  `blokid` int(11) NOT NULL AUTO_INCREMENT,
+  `blokname` varchar(100) NOT NULL,
+  PRIMARY KEY (`blokid`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `bloks`
 --
 
 INSERT INTO `bloks` (`blokid`, `blokname`) VALUES
@@ -46,21 +72,23 @@ INSERT INTO `bloks` (`blokid`, `blokname`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `books`
+-- Struktur dari tabel `books`
 --
 
-CREATE TABLE `books` (
-  `bookid` int(11) NOT NULL,
+DROP TABLE IF EXISTS `books`;
+CREATE TABLE IF NOT EXISTS `books` (
+  `bookid` int(11) NOT NULL AUTO_INCREMENT,
   `unitid` int(11) NOT NULL,
   `fullname` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
   `address` text NOT NULL,
   `phone` text NOT NULL,
-  `remarks` text
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `remarks` text,
+  PRIMARY KEY (`bookid`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `books`
+-- Dumping data untuk tabel `books`
 --
 
 INSERT INTO `books` (`bookid`, `unitid`, `fullname`, `email`, `address`, `phone`, `remarks`) VALUES
@@ -70,55 +98,118 @@ INSERT INTO `books` (`bookid`, `unitid`, `fullname`, `email`, `address`, `phone`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `levels`
+-- Struktur dari tabel `levels`
 --
 
-CREATE TABLE `levels` (
-  `levelid` int(11) NOT NULL,
-  `levelname` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `levels`;
+CREATE TABLE IF NOT EXISTS `levels` (
+  `levelid` int(11) NOT NULL AUTO_INCREMENT,
+  `levelname` varchar(50) NOT NULL,
+  PRIMARY KEY (`levelid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `levels`
+-- Dumping data untuk tabel `levels`
 --
 
 INSERT INTO `levels` (`levelid`, `levelname`) VALUES
 (1, 'Manager'),
 (2, 'Head Division'),
-(3, 'Staff');
+(3, 'Staff'),
+(5, 'Customer');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `roles`
+-- Struktur dari tabel `requestdetails`
 --
 
-CREATE TABLE `roles` (
-  `roleid` int(11) NOT NULL,
-  `rolename` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `requestdetails`;
+CREATE TABLE IF NOT EXISTS `requestdetails` (
+  `requestdetailid` int(11) NOT NULL AUTO_INCREMENT,
+  `requesttypeid` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `unittypeid` int(11) NOT NULL,
+  `blokid` int(11) NOT NULL,
+  `checkindate` datetime DEFAULT NULL,
+  `checkoutdate` datetime DEFAULT NULL,
+  `unitid` int(11) NOT NULL,
+  `marriagecertificate` text,
+  `createdat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `createdby` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedat` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updatedby` timestamp NULL DEFAULT NULL,
+  `approvedstatusid` tinyint(1) NOT NULL DEFAULT '1',
+  `approvedby` varchar(50) DEFAULT NULL,
+  `approveddate` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`requestdetailid`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `roles`
+-- Dumping data untuk tabel `requestdetails`
+--
+
+INSERT INTO `requestdetails` (`requestdetailid`, `requesttypeid`, `username`, `unittypeid`, `blokid`, `checkindate`, `checkoutdate`, `unitid`, `marriagecertificate`, `createdat`, `createdby`, `updatedat`, `updatedby`, `approvedstatusid`, `approvedby`, `approveddate`) VALUES
+(6, 1, 'user', 1, 2, '2019-04-28 00:00:00', '2019-04-28 00:00:00', 2, '5cc5cffa046ea.jpeg', '2019-04-28 16:08:30', '0000-00-00 00:00:00', NULL, NULL, 2, 'admin', '2019-04-29 08:51:27');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `requesttypes`
+--
+
+DROP TABLE IF EXISTS `requesttypes`;
+CREATE TABLE IF NOT EXISTS `requesttypes` (
+  `requesttypeid` int(11) NOT NULL AUTO_INCREMENT,
+  `requesttypename` varchar(50) NOT NULL,
+  PRIMARY KEY (`requesttypeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `requesttypes`
+--
+
+INSERT INTO `requesttypes` (`requesttypeid`, `requesttypename`) VALUES
+(1, 'Unit Baru'),
+(2, 'Maintenance');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `roleid` int(11) NOT NULL AUTO_INCREMENT,
+  `rolename` varchar(50) NOT NULL,
+  PRIMARY KEY (`roleid`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `roles`
 --
 
 INSERT INTO `roles` (`roleid`, `rolename`) VALUES
 (1, 'Admin'),
-(2, 'User');
+(2, 'User'),
+(3, 'Customer');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `status`
+-- Struktur dari tabel `status`
 --
 
-CREATE TABLE `status` (
-  `statusid` int(11) NOT NULL,
-  `statusname` varchar(25) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE IF NOT EXISTS `status` (
+  `statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `statusname` varchar(25) NOT NULL,
+  PRIMARY KEY (`statusid`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `status`
+-- Dumping data untuk tabel `status`
 --
 
 INSERT INTO `status` (`statusid`, `statusname`) VALUES
@@ -130,32 +221,57 @@ INSERT INTO `status` (`statusid`, `statusname`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `units`
+-- Struktur dari tabel `units`
 --
 
-CREATE TABLE `units` (
-  `unitid` int(11) NOT NULL,
+DROP TABLE IF EXISTS `units`;
+CREATE TABLE IF NOT EXISTS `units` (
+  `unitid` int(11) NOT NULL AUTO_INCREMENT,
   `unitcoords` text NOT NULL,
   `unittitle` text NOT NULL,
   `unitdescription` text,
   `statusid` int(11) NOT NULL DEFAULT '1',
-  `blokid` int(11) DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `blokid` int(11) DEFAULT '0',
+  PRIMARY KEY (`unitid`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `units`
+-- Dumping data untuk tabel `units`
 --
 
 INSERT INTO `units` (`unitid`, `unitcoords`, `unittitle`, `unitdescription`, `statusid`, `blokid`) VALUES
-(1, '562,470,562,478,574,476,573,468', 'S-11-A Edit', 'Testing Edit Lagi', 1, 1);
+(1, '562,470,562,478,574,476,573,468', 'UNIT S', 'Testing Edit Lagi', 1, 1),
+(2, '562,470,562,478,574,476,573,468', 'UNIT P', 'Testing Edit Lagi', 1, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `unittypes`
 --
 
-CREATE TABLE `users` (
+DROP TABLE IF EXISTS `unittypes`;
+CREATE TABLE IF NOT EXISTS `unittypes` (
+  `unittypeid` int(11) NOT NULL AUTO_INCREMENT,
+  `unittypename` varchar(50) NOT NULL,
+  PRIMARY KEY (`unittypeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `unittypes`
+--
+
+INSERT INTO `unittypes` (`unittypeid`, `unittypename`) VALUES
+(1, 'Unit Requler'),
+(2, 'Dormitory');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(100) NOT NULL,
   `fullname` varchar(100) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
@@ -164,98 +280,22 @@ CREATE TABLE `users` (
   `roleid` int(11) NOT NULL,
   `telepon` text NOT NULL,
   `issuspend` tinyint(1) NOT NULL DEFAULT '0',
-  `blokid` int(11) DEFAULT NULL
+  `blokid` int(11) DEFAULT NULL,
+  `allowapproverequest` tinyint(4) NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
+-- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`username`, `fullname`, `email`, `password`, `levelid`, `roleid`, `telepon`, `issuspend`, `blokid`) VALUES
-('user', 'user', 'user@gmail.com', 'ee11cbb19052e40b07aac0ca060c23ee', 3, 2, '08123123123', 0, 2),
-('admin', 'asdas awdwd', 'asdadsa@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 2, 1, '08123123', 0, 0),
-('Test', 'test', 'test@gmail.com', '0cbc6611f5540bd0809a388dc95a615b', 2, 2, '08123123123', 0, 1);
+INSERT INTO `users` (`username`, `fullname`, `email`, `password`, `levelid`, `roleid`, `telepon`, `issuspend`, `blokid`, `allowapproverequest`) VALUES
+('user', 'user', 'user@gmail.com', 'ee11cbb19052e40b07aac0ca060c23ee', 3, 3, '08123123123', 0, 1, 0),
+('admin', 'asdas awdwd', 'asdadsa@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 2, 1, '08123123', 0, 0, 1),
+('Test', 'test', 'test@gmail.com', '0cbc6611f5540bd0809a388dc95a615b', 2, 2, '08123123123', 0, 1, 0),
+('customer', 'customer Satu', 'customer@gmail.com', '91ec1f9324753048c0096d036a694f86', 5, 3, '0812312313', 0, 0, 0);
+COMMIT;
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `bloks`
---
-ALTER TABLE `bloks`
-  ADD PRIMARY KEY (`blokid`);
-
---
--- Indexes for table `books`
---
-ALTER TABLE `books`
-  ADD PRIMARY KEY (`bookid`);
-
---
--- Indexes for table `levels`
---
-ALTER TABLE `levels`
-  ADD PRIMARY KEY (`levelid`);
-
---
--- Indexes for table `roles`
---
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`roleid`);
-
---
--- Indexes for table `status`
---
-ALTER TABLE `status`
-  ADD PRIMARY KEY (`statusid`);
-
---
--- Indexes for table `units`
---
-ALTER TABLE `units`
-  ADD PRIMARY KEY (`unitid`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`username`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `bloks`
---
-ALTER TABLE `bloks`
-  MODIFY `blokid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT for table `books`
---
-ALTER TABLE `books`
-  MODIFY `bookid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT for table `levels`
---
-ALTER TABLE `levels`
-  MODIFY `levelid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `roles`
---
-ALTER TABLE `roles`
-  MODIFY `roleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `status`
---
-ALTER TABLE `status`
-  MODIFY `statusid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `units`
---
-ALTER TABLE `units`
-  MODIFY `unitid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

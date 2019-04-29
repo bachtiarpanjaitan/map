@@ -245,4 +245,10 @@ class User_Controller extends CI_Controller {
 			$this->load->view('user/newrequest',$data);
 		}
 	}
+
+	function approvallist(){
+		$data['status'] = $this->muser->getapprovalstatus();
+		$data['requests'] = $this->muser->getrequest();
+		$this->load->view('user/requestapprovallist',$data);
+	}
 }

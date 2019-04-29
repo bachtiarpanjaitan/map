@@ -333,16 +333,17 @@ class Muser extends CI_Model{
 		}
 	}
 
-	public function getwhererequest($id){
-		if(!empty($id)){
-			
-			$this->db->select('requestdetails.*');
-			$this->db->select('users.telepon');
-			$this->db->join('users','users.'. COL_USERNAME.' = '. 'requestdetails.username', 'inner');
-			$this->db->where('requestdetailid', $id);
+	public function getwhererequest($id, $approve = false){
+		if(!empty($id)){	
+			if($approve){
+				$this->db->where('requestdetailid', $id);
+			}else{
+				$this->db->select('requestdetails.*');
+				$this->db->select('users.telepon');
+				$this->db->join('users','users.'. COL_USERNAME.' = '. 'requestdetails.username', 'left');
+				$this->db->where('requestdetailid', $id);
+			}
 			$result = $this->db->get('requestdetails')->result_array();
-			// var_dump($result);
-			// return;
 			return $result;
 		}else{
 			return false;
@@ -350,6 +351,17 @@ class Muser extends CI_Model{
 	}
 
 	public function getrequest(){
+		$this->db->select('requestdetails.*');
+		$this->db->select('requesttypes.requesttypename');
+		$this->db->select('unittypes.unittypename');
+		$this->db->select('bloks.blokname');
+		$this->db->select('units.unittitle');
+		$this->db->select('approvalstatus.approvalstatusname');
+		$this->db->join('requesttypes','requesttypes.requesttypeid = requestdetails.requesttypeid', 'left');
+		$this->db->join('unittypes','unittypes.unittypeid = requestdetails.unittypeid', 'left');
+		$this->db->join('bloks','bloks.blokid = requestdetails.blokid', 'left');
+		$this->db->join('units','units.unitid = requestdetails.unitid', 'left');
+		$this->db->join('approvalstatus','approvalstatus.approvalstatusid = requestdetails.approvedstatusid', 'left');
 		return $this->db->get('requestdetails')->result_array();
 	}
 
@@ -363,6 +375,10 @@ class Muser extends CI_Model{
 				return false;
 			}
 		}
+	}
+
+	public function getapprovalstatus(){
+		return $this->db->get('approvalstatus')->result_array();
 	}
 
 }

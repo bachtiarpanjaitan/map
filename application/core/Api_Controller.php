@@ -343,4 +343,36 @@ class Api_Controller extends CI_Controller {
 			echo json_encode($resp);
 		}
 
+		public function approverequest(){
+			$id = $this->input->post('id');
+			$status = $this->input->post('status');
+			if(empty($id)){
+				$resp['success'] = false;
+				$resp['message'] = 'Request belum dipilih';
+				echo json_encode($resp);
+				return;
+			}
+
+			$selectedrequest = $this->muser->getwhererequest($id, true)[0];
+			$currentuser = $this->muser->getuser(getuserlogin('username'));
+			$selectedrequest['approvedstatusid'] = $status;
+			$selectedrequest['approvedby'] = getuserlogin('username');
+			$selectedrequest['approveddate'] = date('Y-m-d H:i:s');	
+			if($currentuser->allowapproverequest == 1){
+				$result = $this->muser->updaterequestdetail($selectedrequest,$id);
+				if($result){
+					$resp['success'] = true;
+					$resp['message'] = 'Data berhasil Dihapus';
+				}else{
+					$resp['success'] = false;
+					$resp['message'] = 'Data gagal dihapus';
+				}
+			}else{
+				$resp['success'] = false;
+				$resp['message'] = 'Anda tidak diizinkan approve request.';
+			}
+			
+			echo json_encode($resp);
+		}
+
 }

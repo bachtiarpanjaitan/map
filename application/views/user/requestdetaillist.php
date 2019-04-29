@@ -19,10 +19,10 @@ if(!islogin()){
             <?php foreach ($requests as $data) {  ?>
             <tr>
                 <td><a href="<?= site_url('user/editrequestdetail/').$data['requestdetailid'] ?>"><?= $data['username'] ?></a></td>
-                <td><?= $data['requesttypeid'] ?></td>
-                <td><?= $data['unittypeid'] ?></td>
-                <td><?= $data['blokid'] ?></td>
-                <td><?= $data['unitid'] ?></td>
+                <td><?= $data['requesttypename'] ?></td>
+                <td><?= $data['unittypename'] ?></td>
+                <td><?= $data['blokname'] ?></td>
+                <td><?= $data['unittitle'] ?></td>
                 <td><?= $data['checkindate'] ?></td>
                 <td><?= $data['checkoutdate'] ?></td>
                 <td><a class="btndelete" data-requestdetailid="<?= $data['requestdetailid'] ?>" style="cursor: pointer"><i class="mdi mdi-delete " style="font-size: 25px"></i></a></td>
