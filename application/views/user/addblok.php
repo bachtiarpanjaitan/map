@@ -11,7 +11,9 @@ if(!islogin()){
             <label for="unitcoords">Blok Name</label>
             <input type="text" name="blokname" class="form-control" id="blokname" placeholder="exp. Blok A"  value="<?= $edit? $blok->blokname:'' ?>" required>
         </div>
-
+         <div class="form-group">
+            <input type="checkbox" name="dormitory" id="dormitory" placeholder="exp. Blok A"  value="1" <?= $edit? $blok->dormitory == 1?'checked':'':'' ?>> Blok Memiliki type dormitory
+        </div>
         <button type="button" class="btn btn-primary" id="btnsave">Save</button>
     </div>
     
@@ -31,6 +33,7 @@ if(!islogin()){
                data: {
                    'blokname': $('#blokname').val(),
                    'blokid': $('#blokid').val(),
+                   'dormitory': $('#dormitory').val() == 1?'1':0,
                    'edit': '<?= $edit?>'
                },
                dataType: "JSON",

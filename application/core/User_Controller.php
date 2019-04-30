@@ -215,6 +215,7 @@ class User_Controller extends CI_Controller {
 	}
 
 	function addrequest(){
+		$data['title'] = 'Add Request Unit';
 		$data['edit'] = false;
 		$data['bloks'] = $this->muser->getbloks();
 		$data['users'] = $this->muser->getuser();
@@ -241,8 +242,17 @@ class User_Controller extends CI_Controller {
 			$data['requesttypes'] = $this->muser->getrequesttype();
 			$data['unittypes'] = $this->muser->getunittype();
 			$data['request'] = $this->muser->getwhererequest($id)[0];
-			// var_dump($data);
-			$this->load->view('user/newrequest',$data);
+			
+			// var_dump($data['request']);
+			// return;
+			if($data['request']['requesttypeid'] == REQUESTTYPE_NEW){
+				$data['title'] = 'Edit Request Unit';
+				$this->load->view('user/newrequest',$data);
+			}else{
+				$data['title'] = 'Edit Request Maintenance';
+				$this->load->view('user/addmaintenance',$data);
+			}
+			
 		}
 	}
 
@@ -250,5 +260,20 @@ class User_Controller extends CI_Controller {
 		$data['status'] = $this->muser->getapprovalstatus();
 		$data['requests'] = $this->muser->getrequest();
 		$this->load->view('user/requestapprovallist',$data);
+	}
+
+	function addmaintenance(){
+		$data['title'] = 'Add Request Maintenance';
+		$data['edit'] = false;
+		$data['bloks'] = $this->muser->getbloks();
+		$data['users'] = $this->muser->getuser();
+		$data['requesttypes'] = $this->muser->getrequesttype();
+		$data['unittypes'] = $this->muser->getunittype();
+		$this->load->view('user/addmaintenance',$data);
+	}
+
+	function mylistrequestdetail(){
+		$data['requests'] = $this->muser->getrequest(getuserlogin('username'));
+		$this->load->view('user/requestdetaillist',$data);
 	}
 }

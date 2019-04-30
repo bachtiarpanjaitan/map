@@ -7,15 +7,7 @@ if(!islogin()){
 	<form class="row">
 		<div class="col-md-6">
 			<input type="hidden" id="requestdetailid" value="<?= $edit?$request['requestdetailid']:'' ?>">
-			<div class="form-group">
-				<label for="">Jenis Request</label>
-				<select name="requesttypeid" id="requesttypeid" class="form-control">
-					<?php  foreach ($requesttypes as $data) { ?>
-					<option <?php if($edit && $data['requesttypeid'] == $request['requesttypeid']){ echo 'selected';}?>
-						value="<?= $data['requesttypeid'] ?>"><?= $data['requesttypename'] ?></option>
-					<?php } ?>
-				</select>
-			</div>
+			<input type="hidden" name="requesttypeid" id="requesttypeid" value="<?= $edit?$request['requesttypeid']:REQUESTTYPE_NEW ?>">
 			<div class="form-group">
 				<label for="">Jenis Unit</label>
 				<select name="unittypeid" id="unittypeid" class="form-control">
@@ -107,9 +99,10 @@ if(!islogin()){
 <?php $this->load->view('user_footer.php') ?>
 <script>
 	$('.datetimepicker').bootstrapMaterialDatePicker({
-		format: 'Y-M-D'
+		format: 'YYYY-MM-DD'
 	});
 
+	var uunittype = null;
 	Dropzone.autoDiscover = false;
 		$("#imageupload").dropzone({
 			url: "<?= site_url('api/uploadimage') ?>",
@@ -172,15 +165,27 @@ if(!islogin()){
 					if (response.success == true) {
 						var content = "";
 						var data = response.data;
+						
 						$.each(data, function (indexInArray, a) {
-							content += '<option value="' + a.unitid + '">' + a
-								.unittitle + '</option>';
+							if(uunittype == <?= REQUESTTYPE_NEW ?>){
+								if(a.dormitory == 0){
+									content += '<option value="' + a.unitid + '">' + a.unittitle + '</option>';
+								}
+							}else{
+								if(a.dormitory == 1){
+									content += '<option value="' + a.unitid + '">' + a.unittitle + '</option>';
+								}
+							}
 						});
 
 						$('#unitid').append(content);
 					}
 				}
 			});
+		});
+
+		$('#unittypeid').change(function (e) {
+			uunittype = $('#unittypeid').val();
 		});
 
 		$('#btnsave').click(function (e) {

@@ -32,14 +32,14 @@
         <a class="navbar-brand brand-logo" href="<?= site_url() ?>">
           <img src="<?= ASSETS ?>images/logo.svg" alt="logo" />
         </a>
-        <a class="navbar-brand brand-logo-mini" href="<?= ASSETS ?>index.html">
+        <a class="navbar-brand brand-logo-mini" href="<?= site_url('/') ?>index.html">
           <img src="<?= ASSETS ?>images/logo-mini.svg" alt="logo" />
         </a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center">
         <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
           <li class="nav-item">
-            <a href="<?= base_url() ?>" class="nav-link">Dashboard
+            <a href="#" class="nav-link"><?= !empty($title)?$title:'' ?>
               <!-- <span class="badge badge-primary ml-1">New</span> -->
             </a>
           </li>
@@ -183,11 +183,14 @@
             <div class="collapse" id="request">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('user/addrequest') ?>">Add Request</a>
+                  <a class="nav-link" href="<?= site_url('user/addrequest') ?>">Add new Request Unit</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?= site_url('user/addmaintenance') ?>">Add Request Maintenance</a>
                 </li>
                 <?php if(isCustomer()){ ?>
                   <li class="nav-item">
-                  <a class="nav-link" href="<?= site_url('user/customerrequestlist') ?>">My Unit Request</a>
+                  <a class="nav-link" href="<?= site_url('user/mylistrequestdetail') ?>">My Unit Request</a>
                   </li>
                 <?php }else{ ?>
                   <li class="nav-item">

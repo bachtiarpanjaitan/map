@@ -195,9 +195,11 @@ class Api_Controller extends CI_Controller {
 			$blokname = $this->input->post('blokname');
 			$edit = $this->input->post('edit');
 			$id = $this->input->post('blokid');
+			$dormitory = $this->input->post('dormitory');
 			if(!empty($blokname)){
 				$data = array(
 					'blokname' => $blokname,
+					'dormitory' => $dormitory
 				);
 
 				if(!$edit){
@@ -291,10 +293,10 @@ class Api_Controller extends CI_Controller {
 			$edit = $this->input->post('edit');
 			$id = $this->input->post('id');
 
-			if(!empty($requesttypeid) && !empty($unittypeid) && !empty($blokid) && !empty($unitid) && !empty($username) && !empty($checkindate) && !empty($checkoutdate)){
+			if(!empty($requesttypeid) && !empty($unittypeid) && !empty($blokid) && !empty($unitid) && !empty($checkindate) && !empty($checkoutdate)){
 				$data = array(
 					'requesttypeid' => $requesttypeid,
-					'username' => $username,
+					'username' => !empty($username)?$username: getuserlogin('username'),
 					'unittypeid' => $unittypeid,
 					'blokid' => $blokid,
 					'checkindate' => $checkindate,
@@ -318,6 +320,9 @@ class Api_Controller extends CI_Controller {
 					$resp['message'] = "Data Gagal Disimpan";
 				}
 
+			}else{
+				$resp['success'] = false;
+				$resp['message'] = "Silahkan Masukkan data yang dibutuhkan";
 			}
 			echo json_encode($resp);
 
@@ -357,7 +362,29 @@ class Api_Controller extends CI_Controller {
 			$currentuser = $this->muser->getuser(getuserlogin('username'));
 			$selectedrequest['approvedstatusid'] = $status;
 			$selectedrequest['approvedby'] = getuserlogin('username');
-			$selectedrequest['approveddate'] = date('Y-m-d H:i:s');	
+			$selectedrequest['approveddate'] = date('Y-m-d H:i:s');
+
+			$unit = $this->muser->getunits($id);
+			if(!empty($unit)){
+				if($unit->statusid != 1){
+					$resp['success'] = false;
+					$resp['message'] = 'Tidak dapat Order Unit ini karena status '. $unit->statusname;
+					echo json_encode($resp);
+					return;
+				}
+			}
+
+			$bookuser = $this->muser->getuser($selectedrequest['username']);
+			// var_dump($bookuser);
+			$data = array(
+				'unitid' => $selectedrequest['unitid'],
+				'fullname' => $bookuser->fullname,
+				'email' => $bookuser->email,
+				'phone' => $bookuser->telepon,
+				'remarks' => 'Has Approved Request'
+			);
+
+			$result = $this->muser->savebook($data);
 			if($currentuser->allowapproverequest == 1){
 				$result = $this->muser->updaterequestdetail($selectedrequest,$id);
 				if($result){
@@ -374,5 +401,66 @@ class Api_Controller extends CI_Controller {
 			
 			echo json_encode($resp);
 		}
+
+		function savemaintenance(){
+			$requesttypeid = $this->input->post('requesttypeid');
+			$unitid = $this->input->post('unitid');
+			$username = $this->input->post('username');
+			$description = $this->input->post('description');
+			$images = $this->input->post('images');
+			$edit = $this->input->post('edit');
+			$id = $this->input->post('id');
+
+			if(!empty($requesttypeid) && !empty($unitid) ){
+				$username = $username?$username:getuserlogin('username');
+				$unit = $this->muser->getuserunit($username, $unitid)[0];
+				if($unit > 0 || $unit != null){
+					$data = array(
+						'requesttypeid' => $requesttypeid,
+						'username' => $username ,
+						'unittypeid' => $unit['unittypeid'],
+						'blokid' => $unit['blokid'],
+						'unitid' => $unitid,
+						'description' => $description,
+						'image_maintenance' => $images,
+						'createdby' => getuserlogin('username'),
+					);
+
+					if(!$edit){
+						$save = $this->muser->saverequestdetail($data);
+					}else{
+						$data['updatedby'] = getuserlogin('username');
+						$save = $this->muser->updaterequestdetail($data,$id);
+					}
+
+					if($save){
+						$resp['success'] = true;
+					}else{
+						$resp['success'] = false;
+						$resp['message'] = "Data Gagal Disimpan";
+					}
+				}else{
+					$resp['success'] = false;
+					$resp['message'] = 'User tidak memiliki Unit dan Sudah di Approve';
+				}
+				
+			}
+			
+			echo json_encode($resp);
+		}
+
+		function getuserunit(){
+			$username = $this->input->post('username');
+			if(!empty($username)){
+				$resp['data'] = $this->muser->getwhererequests(true, $username);
+			}else{
+				$resp['data'] = $this->muser->getwhererequests(true, getuserlogin('username'));
+			}
+
+			$resp['success'] = true;
+			echo json_encode($resp);
+			
+		}
+		
 
 }

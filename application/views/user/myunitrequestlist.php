@@ -54,11 +54,13 @@ if(!islogin()){
                         },
                         dataType: "JSON",
                         success: function (response) {
-                            if(response.success == true){
-                                swal('success','Data Berhasil Dihapus', 'success');
-                                location.reload();
-                            }else{
-                                swal('error', response.message,'error');
+                            console.log(response);
+                            if (response.success == true) {
+                                swal('success', 'Data Berhasil Dihapus', 'success').then((val) => {
+                                    location.reload();
+                                });
+                            } else {
+                                swal('error', response.message, 'error');
                             }
                         }
                     });

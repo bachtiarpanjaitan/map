@@ -20,7 +20,7 @@ if(!islogin()){
         </thead>
         <tbody>
             <?php foreach ($requests as $data) {  ?>
-            <tr>
+            <tr <?= $data['approvedstatusid'] != REQUESTSTATUS_PENDING ?'style="pointer-events:none"':'' ?>>
                 <td><a href="<?= site_url('user/editrequestdetail/').$data['requestdetailid'] ?>"><?= $data['username'] ?></a></td>
                 <td><?= $data['requesttypename'] ?></td>
                 <td><?= $data['unittypename'] ?></td>
@@ -31,7 +31,7 @@ if(!islogin()){
                 <td><?= $data['approvalstatusname']?></td>
                 <td><?= $data['approvedby']?></td>
                 <td><?= $data['approveddate']?></td>
-                <td><a class="btnapproval" data-toggle="modal" data-target="#myModal" data-requestdetailid="<?= $data['requestdetailid'] ?>" style="cursor: pointer"><i class="mdi mdi-check " style="font-size: 25px"></i></a></td>
+                <td ><a  class="btnapproval" data-toggle="modal" data-target="#myModal" data-requestdetailid="<?= $data['requestdetailid'] ?>" style="cursor: pointer"><i class="mdi mdi-check " style="font-size: 25px"></i></a></td>
             </tr>
             <?php  }  ?>
         </tbody>
@@ -76,8 +76,6 @@ if(!islogin()){
         $('#btnapprove').click(function (e) { 
            var id = $('#selectedid').val();
            var status = $('#selectedstatus').val();
-           console.log(id);
-           console.log(status);
             swal("Anda yakin?.", {
                 buttons: {
                     cancel: 'Tidak',
