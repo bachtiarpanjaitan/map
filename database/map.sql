@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Waktu pembuatan: 29 Apr 2019 pada 15.52
+-- Waktu pembuatan: 30 Apr 2019 pada 17.49
 -- Versi server: 5.7.24
 -- Versi PHP: 7.3.1
 
@@ -54,6 +54,7 @@ DROP TABLE IF EXISTS `bloks`;
 CREATE TABLE IF NOT EXISTS `bloks` (
   `blokid` int(11) NOT NULL AUTO_INCREMENT,
   `blokname` varchar(100) NOT NULL,
+  `dormitory` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`blokid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
@@ -61,13 +62,13 @@ CREATE TABLE IF NOT EXISTS `bloks` (
 -- Dumping data untuk tabel `bloks`
 --
 
-INSERT INTO `bloks` (`blokid`, `blokname`) VALUES
-(1, 'Blok S'),
-(2, 'Blok P'),
-(3, 'Blok B'),
-(4, 'Blok U'),
-(5, 'Blok T'),
-(0, 'Allow All');
+INSERT INTO `bloks` (`blokid`, `blokname`, `dormitory`) VALUES
+(1, 'Blok S', 1),
+(2, 'Blok P', 0),
+(3, 'Blok B', 0),
+(4, 'Blok U', 0),
+(5, 'Blok T', 0),
+(0, 'Allow All', 0);
 
 -- --------------------------------------------------------
 
@@ -85,15 +86,15 @@ CREATE TABLE IF NOT EXISTS `books` (
   `phone` text NOT NULL,
   `remarks` text,
   PRIMARY KEY (`bookid`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `books`
 --
 
 INSERT INTO `books` (`bookid`, `unitid`, `fullname`, `email`, `address`, `phone`, `remarks`) VALUES
-(6, 1, 'jack mamba2', 'asdadsa@gmail.com', 'Medan Belawan', '08123123', 'asdasdf asd'),
-(2, 2, 'Paramitha', 'paramita@gmail.com', 'medan', '08123123', 'Testing insert from form');
+(2, 2, 'Paramitha', 'paramita@gmail.com', 'medan', '08123123', 'Testing insert from form'),
+(7, 1, 'user', 'user@gmail.com', '', '08123123123', 'Has Approved Request');
 
 -- --------------------------------------------------------
 
@@ -136,21 +137,25 @@ CREATE TABLE IF NOT EXISTS `requestdetails` (
   `unitid` int(11) NOT NULL,
   `marriagecertificate` text,
   `createdat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `createdby` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `createdby` varchar(50) NOT NULL,
   `updatedat` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updatedby` timestamp NULL DEFAULT NULL,
   `approvedstatusid` tinyint(1) NOT NULL DEFAULT '1',
   `approvedby` varchar(50) DEFAULT NULL,
   `approveddate` timestamp NULL DEFAULT NULL,
+  `description` text,
+  `image_maintenance` text,
   PRIMARY KEY (`requestdetailid`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `requestdetails`
 --
 
-INSERT INTO `requestdetails` (`requestdetailid`, `requesttypeid`, `username`, `unittypeid`, `blokid`, `checkindate`, `checkoutdate`, `unitid`, `marriagecertificate`, `createdat`, `createdby`, `updatedat`, `updatedby`, `approvedstatusid`, `approvedby`, `approveddate`) VALUES
-(6, 1, 'user', 1, 2, '2019-04-28 00:00:00', '2019-04-28 00:00:00', 2, '5cc5cffa046ea.jpeg', '2019-04-28 16:08:30', '0000-00-00 00:00:00', NULL, NULL, 2, 'admin', '2019-04-29 08:51:27');
+INSERT INTO `requestdetails` (`requestdetailid`, `requesttypeid`, `username`, `unittypeid`, `blokid`, `checkindate`, `checkoutdate`, `unitid`, `marriagecertificate`, `createdat`, `createdby`, `updatedat`, `updatedby`, `approvedstatusid`, `approvedby`, `approveddate`, `description`, `image_maintenance`) VALUES
+(6, 1, 'user', 1, 2, '2019-04-28 00:00:00', '2019-04-28 00:00:00', 2, '5cc5cffa046ea.jpeg', '2019-04-28 09:08:30', '0000-00-00 00:00:00', NULL, NULL, 2, 'admin', '2019-04-29 01:51:27', NULL, NULL),
+(9, 1, 'user', 2, 1, '2019-04-30 00:00:00', '2019-04-30 00:00:00', 1, '5cc87be1045b8.jpeg', '2019-04-30 16:47:56', 'user', '2019-04-30 17:10:06', NULL, 2, 'admin', '2019-04-30 10:22:00', NULL, NULL),
+(10, 2, 'user', 2, 1, NULL, NULL, 1, NULL, '2019-04-30 16:51:51', 'user', NULL, NULL, 3, 'admin', '2019-04-30 09:52:51', 'Request dah', '5cc87d2574433.jpeg');
 
 -- --------------------------------------------------------
 
