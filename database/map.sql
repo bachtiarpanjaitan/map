@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Waktu pembuatan: 30 Apr 2019 pada 17.49
+-- Waktu pembuatan: 05 Bulan Mei 2019 pada 16.45
 -- Versi server: 5.7.24
 -- Versi PHP: 7.3.1
 
@@ -55,6 +55,10 @@ CREATE TABLE IF NOT EXISTS `bloks` (
   `blokid` int(11) NOT NULL AUTO_INCREMENT,
   `blokname` varchar(100) NOT NULL,
   `dormitory` tinyint(4) DEFAULT '0',
+  `dormitoryclass` int(11) DEFAULT NULL,
+  `blokcoords` varchar(50) DEFAULT NULL,
+  `parentblokid` int(11) DEFAULT NULL,
+  `description` text,
   PRIMARY KEY (`blokid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
@@ -62,13 +66,9 @@ CREATE TABLE IF NOT EXISTS `bloks` (
 -- Dumping data untuk tabel `bloks`
 --
 
-INSERT INTO `bloks` (`blokid`, `blokname`, `dormitory`) VALUES
-(1, 'Blok S', 1),
-(2, 'Blok P', 0),
-(3, 'Blok B', 0),
-(4, 'Blok U', 0),
-(5, 'Blok T', 0),
-(0, 'Allow All', 0);
+INSERT INTO `bloks` (`blokid`, `blokname`, `dormitory`, `dormitoryclass`, `blokcoords`, `parentblokid`, `description`) VALUES
+(1, 'Blok S-11', 0, 10, '220,400,234,438,311,403,256,374', 1, NULL),
+(2, 'Blok P-11', 1, NULL, '474,439,565,513,587,486,501,411', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `books` (
   `phone` text NOT NULL,
   `remarks` text,
   PRIMARY KEY (`bookid`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `books`
@@ -94,7 +94,8 @@ CREATE TABLE IF NOT EXISTS `books` (
 
 INSERT INTO `books` (`bookid`, `unitid`, `fullname`, `email`, `address`, `phone`, `remarks`) VALUES
 (2, 2, 'Paramitha', 'paramita@gmail.com', 'medan', '08123123', 'Testing insert from form'),
-(7, 1, 'user', 'user@gmail.com', '', '08123123123', 'Has Approved Request');
+(7, 1, 'user', 'user@gmail.com', '', '08123123123', 'Has Approved Request'),
+(9, 2, 'test', 'test@gmail.com', '', '08123123123', 'Has Approved Request');
 
 -- --------------------------------------------------------
 
@@ -118,6 +119,26 @@ INSERT INTO `levels` (`levelid`, `levelname`) VALUES
 (2, 'Head Division'),
 (3, 'Staff'),
 (5, 'Customer');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `parentbloks`
+--
+
+DROP TABLE IF EXISTS `parentbloks`;
+CREATE TABLE IF NOT EXISTS `parentbloks` (
+  `parentblokid` int(11) NOT NULL,
+  `parentblokname` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `parentbloks`
+--
+
+INSERT INTO `parentbloks` (`parentblokid`, `parentblokname`) VALUES
+(1, 'BLOK S'),
+(2, 'BLOK P');
 
 -- --------------------------------------------------------
 
@@ -146,16 +167,14 @@ CREATE TABLE IF NOT EXISTS `requestdetails` (
   `description` text,
   `image_maintenance` text,
   PRIMARY KEY (`requestdetailid`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `requestdetails`
 --
 
 INSERT INTO `requestdetails` (`requestdetailid`, `requesttypeid`, `username`, `unittypeid`, `blokid`, `checkindate`, `checkoutdate`, `unitid`, `marriagecertificate`, `createdat`, `createdby`, `updatedat`, `updatedby`, `approvedstatusid`, `approvedby`, `approveddate`, `description`, `image_maintenance`) VALUES
-(6, 1, 'user', 1, 2, '2019-04-28 00:00:00', '2019-04-28 00:00:00', 2, '5cc5cffa046ea.jpeg', '2019-04-28 09:08:30', '0000-00-00 00:00:00', NULL, NULL, 2, 'admin', '2019-04-29 01:51:27', NULL, NULL),
-(9, 1, 'user', 2, 1, '2019-04-30 00:00:00', '2019-04-30 00:00:00', 1, '5cc87be1045b8.jpeg', '2019-04-30 16:47:56', 'user', '2019-04-30 17:10:06', NULL, 2, 'admin', '2019-04-30 10:22:00', NULL, NULL),
-(10, 2, 'user', 2, 1, NULL, NULL, 1, NULL, '2019-04-30 16:51:51', 'user', NULL, NULL, 3, 'admin', '2019-04-30 09:52:51', 'Request dah', '5cc87d2574433.jpeg');
+(24, 1, 'Test', 2, 1, '2019-05-05 00:00:00', '2019-05-05 00:00:00', 2, '5cceaa41e8ebc.jpeg', '2019-05-05 09:17:54', 'admin', NULL, NULL, 2, 'admin', '2019-05-05 02:18:56', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -232,21 +251,21 @@ INSERT INTO `status` (`statusid`, `statusname`) VALUES
 DROP TABLE IF EXISTS `units`;
 CREATE TABLE IF NOT EXISTS `units` (
   `unitid` int(11) NOT NULL AUTO_INCREMENT,
-  `unitcoords` text NOT NULL,
   `unittitle` text NOT NULL,
   `unitdescription` text,
   `statusid` int(11) NOT NULL DEFAULT '1',
   `blokid` int(11) DEFAULT '0',
   PRIMARY KEY (`unitid`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=91 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `units`
 --
 
-INSERT INTO `units` (`unitid`, `unitcoords`, `unittitle`, `unitdescription`, `statusid`, `blokid`) VALUES
-(1, '562,470,562,478,574,476,573,468', 'UNIT S', 'Testing Edit Lagi', 1, 1),
-(2, '562,470,562,478,574,476,573,468', 'UNIT P', 'Testing Edit Lagi', 1, 2);
+INSERT INTO `units` (`unitid`, `unittitle`, `unitdescription`, `statusid`, `blokid`) VALUES
+(1, 'S-11-a', NULL, 1, 1),
+(2, 'S-11-b', NULL, 2, 1),
+(3, 'P-11-a', NULL, 1, 2);
 
 -- --------------------------------------------------------
 
