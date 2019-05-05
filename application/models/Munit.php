@@ -2,6 +2,7 @@
 class Munit extends CI_Model{
 	
 
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->database();
@@ -10,10 +11,13 @@ class Munit extends CI_Model{
     public function getdataunits($id= ""){
         if(!empty($id)){
             $this->db->where('unitid',$id);
-        }
-        $this->db->join('status','status.statusid = '.'units.statusid','left');
-        $this->db->join('bloks','bloks.blokid = '.'units.blokid','left');
-        return $this->db->get('units')->result_array();
+				}
+
+				$this->db->select('bloks.*');
+				$this->db->select('parentbloks.parentblokname');
+        $this->db->join('parentbloks','bloks.parentblokid = '.'parentbloks.parentblokid','left');
+        
+        return $this->db->get('bloks')->result_array();
 		}
 		public function getdatabloks($id= ""){
 			if(!empty($id)){

@@ -83,7 +83,7 @@ if(!islogin()){
 				</div>
 				<div class="col-md-6">
 					<label for="">Foto Terpilih</label>
-					<div id="imgthumbnail"><img src="<?= ASSETS ?>images/<?= $edit?$request['marriagecertificate']: '' ?>" width="200" height="175px"
+					<div id="imgthumbnail"><img src="<?= ASSETS ?>request/<?= $edit?$request['marriagecertificate']: '' ?>" width="200" height="175px"
 						class="img img-responsive img-thumbnail" alt=""></div>
 				</div>
 				</div>
@@ -140,7 +140,7 @@ if(!islogin()){
 							if (val.success == true) {
 								$('#imgthumbnail').empty();
 								$('#images').val(val.filename);
-								var content = '<img src="<?= ASSETS ?>images/' + val.filename +
+								var content = '<img src="<?= ASSETS ?>request/' + val.filename +
 									'" class="img-responsive img-thumbnail">';
 								$('#imgthumbnail').append(content);
 							}

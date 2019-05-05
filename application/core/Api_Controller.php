@@ -266,7 +266,7 @@ class Api_Controller extends CI_Controller {
 				$image_type = $image_type_aux[1];  
 				$image_base64 = base64_decode($image_parts[1]);
 				$name = uniqid() . '.'.$image_type;
-				$file = realpath('assets/images').'/'.$name ;
+				$file = realpath('assets/request').'/'.$name ;
 				file_put_contents($file, $image_base64);
 				$data = array(
 					'filename' => $name,
@@ -460,6 +460,20 @@ class Api_Controller extends CI_Controller {
 			$resp['success'] = true;
 			echo json_encode($resp);
 			
+		}
+
+		function getunitperblok()
+		{
+			$blokid = $this->input->post('blokid');
+			if(!empty($blokid)){
+				$resp['data'] = $this->muser->getunitwhereblok($blokid);
+				$resp['count'] = count($resp['data']);
+				$resp['success'] = true;
+			}else{
+				$resp['success'] = false;
+			}
+			echo json_encode($resp);
+
 		}
 		
 

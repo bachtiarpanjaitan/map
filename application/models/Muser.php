@@ -436,4 +436,20 @@ class Muser extends CI_Model{
 		return $result;
 	}
 
+	public function getunitwhereblok($blokid)
+	{
+		$this->db->select('units.*');
+		// $this->db->select('units.statusid');
+		// $this->db->select('books.fullname');
+		// $this->db->select('books.phone');
+		$this->db->select('status.statusname');
+		$this->db->join('status','units.statusid = status.statusid', 'left');
+        // $this->db->join('books','books.unitid = units.unitid','left');
+		$this->db->where('blokid',$blokid);
+		// var_dump($this->db->last_query());
+		return $this->db->get('units')->result_array();
+	}
+
+	
+
 }

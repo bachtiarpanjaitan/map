@@ -9,6 +9,12 @@ class Home extends CI_Controller {
     }
 
   public function index(){
+    $data['title'] = 'Add Request Unit';
+		$data['edit'] = false;
+		$data['bloks'] = $this->muser->getbloks();
+		$data['users'] = $this->muser->getuser();
+		$data['requesttypes'] = $this->muser->getrequesttype();
+		$data['unittypes'] = $this->muser->getunittype();
     if(isCustomer()){
       $data['user'] = $this->muser->getuserdata();
       $this->load->view('customerdashboard',$data);
