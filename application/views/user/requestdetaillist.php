@@ -13,7 +13,7 @@ if(!islogin()){
             <th>UNIT</th>
             <th>CHECK IN</th>
             <th>CHECK OUT</th>
-            <th>ACTION</th>
+            <th>ACTION</th> 
         </thead>
         <tbody>
             <?php foreach ($requests as $data) {  ?>

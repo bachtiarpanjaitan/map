@@ -9,10 +9,6 @@ if(!islogin()){
     <div class="col-md-6">
         <input type="hidden" value="<?= $edit? $unit->unitid:'' ?>" id="unitid">
         <div class="form-group">
-            <label for="unitcoords">Unit Coords</label>
-            <input type="text" name="unitcoords" class="form-control" id="ünitcoords" placeholder="exp. 562,470,562,478,574,476,573,468"  value="<?= $edit? $unit->unitcoords:'' ?>" required>
-        </div>
-        <div class="form-group">
             <label for="unittitle">Unit Title</label>
             <input type="text" name="unittitle" class="form-control" id="unittitle"  value="<?= $edit? $unit->unittitle:'' ?>" required>
         </div>
@@ -37,10 +33,6 @@ if(!islogin()){
 <script>
     $(document).ready(function () {
         $('#btnsave').click(function (e) { 
-            if($('#unitcoords').val() == ""){
-                swal('error','Kordinat tidak boleh kosong','error');
-                return false;
-            }
             if($('#unittitle').val() == ""){
                 swal('error','Judul tidak boleh kosong','error');
                 return false;
@@ -49,7 +41,6 @@ if(!islogin()){
                type: "POST",
                url: "<?= site_url('api/saveunit') ?>",
                data: {
-                   'unitcoords': $('#ünitcoords').val(),
                    'unittitle':$('#unittitle').val(),
                    'unitdescription': $('#unitdescription').val(),
                    'blokid':$('#blokid').val(),

@@ -190,7 +190,7 @@ class User_Controller extends CI_Controller {
 	}
 
 	function unitlist(){
-		$data['units'] = $this->munit->getdataunits();
+		$data['units'] = $this->munit->getunits();
 		$this->load->view('user/unitlist',$data);
 	}
 
@@ -204,12 +204,16 @@ class User_Controller extends CI_Controller {
 	}
 	function addblok(){
 		$data['edit'] = false;
+		$data['parentbloks'] = $this->muser->getparentblok();
+		// var_dump($data);
+		// return;
 		$this->load->view('user/addblok', $data);
 	}
 	function blokedit($id){
 		if(!empty($id)){
 			$data['edit'] = true;
 			$data['blok'] = $this->muser->getwhereblok($id);
+			$data['parentbloks'] = $this->muser->getparentblok();
 			$this->load->view('user/addblok',$data);
 		}
 	}
@@ -274,6 +278,6 @@ class User_Controller extends CI_Controller {
 
 	function mylistrequestdetail(){
 		$data['requests'] = $this->muser->getrequest(getuserlogin('username'));
-		$this->load->view('user/requestdetaillist',$data);
+		$this->load->view('user/myunitrequestlist',$data);
 	}
 }

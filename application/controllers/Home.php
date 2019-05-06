@@ -14,14 +14,17 @@ class Home extends CI_Controller {
 		$data['bloks'] = $this->muser->getbloks();
 		$data['users'] = $this->muser->getuser();
 		$data['requesttypes'] = $this->muser->getrequesttype();
-		$data['unittypes'] = $this->muser->getunittype();
-    if(isCustomer()){
-      $data['user'] = $this->muser->getuserdata();
-      $this->load->view('customerdashboard',$data);
-    }else{
-      $data['user'] = $this->muser->getuserdata();
-      $this->load->view('dashboard',$data);
-    }
+    $data['unittypes'] = $this->muser->getunittype();
+    $data['user'] = $this->muser->getuserdata();
+    $this->load->view('dashboard',$data);
+
+    // if(isCustomer()){
+    //   $data['user'] = $this->muser->getuserdata();
+    //   $this->load->view('customerdashboard',$data);
+    // }else{
+    //   $data['user'] = $this->muser->getuserdata();
+    //   $this->load->view('dashboard',$data);
+    // }
   	
 	}
 

@@ -113,15 +113,13 @@ class Api_Controller extends CI_Controller {
 		}
 
 		public function saveunit(){
-			$coords = $this->input->post('unitcoords');
 			$title = $this->input->post('unittitle');
 			$description = $this->input->post('unitdescription');
 			$blokid = $this->input->post('blokid');
 			$edit = $this->input->post('edit');
 			$id = $this->input->post('unitid');
-			if(!empty($coords) && !empty($title)){
+			if(!empty($title)){
 				$data = array(
-					'unitcoords' => $coords,
 					'unittitle' => $title,
 					'blokid' => $blokid,
 					'unitdescription' => $description,
@@ -193,12 +191,18 @@ class Api_Controller extends CI_Controller {
 		}
 		public function saveblok(){
 			$blokname = $this->input->post('blokname');
+			$coords = $this->input->post('coords');
+			$dormitoryclass = $this->input->post('dormitoryclass');
+			$parentblokid = $this->input->post('parentblokid');
 			$edit = $this->input->post('edit');
 			$id = $this->input->post('blokid');
 			$dormitory = $this->input->post('dormitory');
 			if(!empty($blokname)){
 				$data = array(
 					'blokname' => $blokname,
+					'parentblokid' => $parentblokid,
+					'blokcoords' => $coords,
+					'dormitoryclass' => $dormitoryclass,
 					'dormitory' => $dormitory
 				);
 
@@ -293,7 +297,7 @@ class Api_Controller extends CI_Controller {
 			$edit = $this->input->post('edit');
 			$id = $this->input->post('id');
 
-			if(!empty($requesttypeid) && !empty($unittypeid) && !empty($blokid) && !empty($unitid) && !empty($checkindate) && !empty($checkoutdate)){
+			if(!empty($requesttypeid) && !empty($unittypeid) && !empty($blokid) && !empty($unitid)){
 				$data = array(
 					'requesttypeid' => $requesttypeid,
 					'username' => !empty($username)?$username: getuserlogin('username'),
@@ -302,9 +306,14 @@ class Api_Controller extends CI_Controller {
 					'checkindate' => $checkindate,
 					'checkoutdate' => $checkoutdate,
 					'unitid' => $unitid,
-					'marriagecertificate' => $images,
 					'createdby' => getuserlogin('username'),
 				);
+
+				if($requesttypeid == REQUESTTYPE_NEW){
+						$data['marriagecertificate'] = $images;
+				}else{
+					$data['image_maintenance'] = $images;
+				}
 
 				if(!$edit){
 					$save = $this->muser->saverequestdetail($data);

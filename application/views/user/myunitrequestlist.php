@@ -9,6 +9,7 @@ if(!islogin()){
             <th>USERNAME</th>
             <th>TIPE REQUEST</th>
             <th>TIPE UNIT</th>
+            <th>STATUS</th>
             <th>BLOK</th>
             <th>UNIT</th>
             <th>CHECK IN</th>
@@ -18,14 +19,15 @@ if(!islogin()){
         <tbody>
             <?php foreach ($requests as $data) {  ?>
             <tr>
-                <td><a href="<?= site_url('user/editrequestdetail/').$data['requestdetailid'] ?>"><?= $data['username'] ?></a></td>
+                <td><a href="<?= $data['approvedstatusid'] != REQUESTSTATUS_APPROVED?'':site_url('user/editrequestdetail/').$data['requestdetailid'] ?>"><?= $data['username'] ?></a></td>
                 <td><?= $data['requesttypename'] ?></td>
                 <td><?= $data['unittypename'] ?></td>
+                <td><?= $data['approvalstatusname'] ?></td>
                 <td><?= $data['blokname'] ?></td>
                 <td><?= $data['unittitle'] ?></td>
                 <td><?= $data['checkindate'] ?></td>
                 <td><?= $data['checkoutdate'] ?></td>
-                <td><a class="btndelete" data-requestdetailid="<?= $data['requestdetailid'] ?>" style="cursor: pointer"><i class="mdi mdi-delete " style="font-size: 25px"></i></a></td>
+                <td><a class="btndelete" data-status="<?= $data['approvedstatusid'] ?>" data-requestdetailid="<?= $data['requestdetailid'] ?>" style="cursor: pointer"><i class="mdi mdi-delete " style="font-size: 25px"></i></a></td>
             </tr>
             <?php  }  ?>
         </tbody>
@@ -39,6 +41,13 @@ if(!islogin()){
     $(document).ready(function () {
         $('.btndelete').click(function (e) { 
            var id = $(this).data('requestdetailid');
+           var status = $(this).data('status');
+        
+            if(status == <?= REQUESTSTATUS_APPROVED ?>){
+                swal('error','Data tidak da[pat dihapus karena sudah disetujui','error');
+                return false;
+            }
+
             swal("Anda yakin menghapusnya?.", {
                 buttons: {
                     cancel: 'Tidak',

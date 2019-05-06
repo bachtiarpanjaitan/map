@@ -19,6 +19,21 @@ class Munit extends CI_Model{
         
         return $this->db->get('bloks')->result_array();
 		}
+
+
+		public function getunits($id = null){
+				if(!empty($id)){
+            $this->db->where('unitid',$id);
+				}
+
+				$this->db->select('bloks.blokname');
+				$this->db->select('status.statusname');
+				$this->db->select('units.*');
+				$this->db->join('bloks','bloks.blokid = units.blokid','left');
+				$this->db->join('status','status.statusid = units.statusid','left');
+				return $this->db->get('units')->result_array();
+		}
+
 		public function getdatabloks($id= ""){
 			if(!empty($id)){
 					$this->db->where('blokid',$id);

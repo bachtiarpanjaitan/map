@@ -7,20 +7,18 @@ if(!islogin()){
     <table class="table table-hover table-responsive" id="table">
         <thead>
             <th>TITLE</th>
-            <th>UNIT COORDS</th>
+            <th>BLOK</th>
             <th>DESCRIPTION</th>
             <th>STATUS</th>
-            <th>BLOK</th>
             <th></th>
         </thead>
         <tbody>
             <?php foreach ($units as $data) {  ?>
             <tr>
                 <td><a href="<?= site_url('user/editunit/').$data['unitid'] ?>"><?= $data['unittitle'] ?></a></td>
-                <td><?= $data['unitcoords'] ?></td>
+                <td><?= $data['blokname'] ?></td>
                 <td><?= $data['unitdescription'] ?></td>
                 <td><?= $data['statusname'] ?></td>
-                <td><?= $data['blokname'] ?></td>
                 <td><a class="btndelete" data-unitid="<?= $data['unitid'] ?>" style="cursor: pointer"><i class="mdi mdi-delete " style="font-size: 25px"></i></a></td>
             </tr>
             <?php  }  ?>

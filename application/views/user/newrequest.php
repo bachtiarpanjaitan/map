@@ -10,7 +10,7 @@ if(!islogin()){
 			<input type="hidden" name="requesttypeid" id="requesttypeid" value="<?= $edit?$request['requesttypeid']:REQUESTTYPE_NEW ?>">
 			<div class="form-group">
 				<label for="">Jenis Unit</label>
-				<select name="unittypeid" id="unittypeid" class="form-control">
+				<select name="unittypeid" id="unittypeid" <?= $edit?"disabled":'' ?> class="form-control">
 					<?php  foreach ($unittypes as $data) { ?>
 					<option <?php if($edit && $data['unittypeid'] == $request['unittypeid']){ echo 'selected';}?>
 						value="<?= $data['unittypeid'] ?>"><?= $data['unittypename'] ?></option>
@@ -19,7 +19,7 @@ if(!islogin()){
 			</div>
 			<div class="form-group">
 				<label for="">Blok</label>
-				<select name="blokid" id="blokid" class="form-control">
+				<select name="blokid" id="blokid" <?= $edit?"disabled":'' ?> class="form-control">
 				<option value="">Silahkan Pilih Blok</option>
 					<?php  foreach ($bloks as $data) { ?>
 					<?php if($data['blokid'] == 0){continue;}  ?>
@@ -30,7 +30,7 @@ if(!islogin()){
 			</div>
 			<div class="form-group">
 				<label for="">Unit</label>
-				<select class="form-control" id="unitid">
+				<select class="form-control" <?= $edit?"disabled":'' ?> id="unitid">
 						
 				</select>
 			</div>

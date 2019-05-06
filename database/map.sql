@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Waktu pembuatan: 05 Bulan Mei 2019 pada 16.45
+-- Waktu pembuatan: 06 Bulan Mei 2019 pada 13.47
 -- Versi server: 5.7.24
 -- Versi PHP: 7.3.1
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `bloks` (
 
 INSERT INTO `bloks` (`blokid`, `blokname`, `dormitory`, `dormitoryclass`, `blokcoords`, `parentblokid`, `description`) VALUES
 (1, 'Blok S-11', 0, 10, '220,400,234,438,311,403,256,374', 1, NULL),
-(2, 'Blok P-11', 1, NULL, '474,439,565,513,587,486,501,411', 2, NULL);
+(2, 'Blok P-11', 1, 5, '474,439,565,513,587,486,501,411', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `books` (
   `phone` text NOT NULL,
   `remarks` text,
   PRIMARY KEY (`bookid`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `books`
@@ -95,7 +95,9 @@ CREATE TABLE IF NOT EXISTS `books` (
 INSERT INTO `books` (`bookid`, `unitid`, `fullname`, `email`, `address`, `phone`, `remarks`) VALUES
 (2, 2, 'Paramitha', 'paramita@gmail.com', 'medan', '08123123', 'Testing insert from form'),
 (7, 1, 'user', 'user@gmail.com', '', '08123123123', 'Has Approved Request'),
-(9, 2, 'test', 'test@gmail.com', '', '08123123123', 'Has Approved Request');
+(9, 2, 'test', 'test@gmail.com', '', '08123123123', 'Has Approved Request'),
+(10, 2, 'test', 'test@gmail.com', '', '08123123123', 'Has Approved Request'),
+(11, 2, 'user', 'user@gmail.com', '', '08123123123', 'Has Approved Request');
 
 -- --------------------------------------------------------
 
@@ -167,14 +169,18 @@ CREATE TABLE IF NOT EXISTS `requestdetails` (
   `description` text,
   `image_maintenance` text,
   PRIMARY KEY (`requestdetailid`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `requestdetails`
 --
 
 INSERT INTO `requestdetails` (`requestdetailid`, `requesttypeid`, `username`, `unittypeid`, `blokid`, `checkindate`, `checkoutdate`, `unitid`, `marriagecertificate`, `createdat`, `createdby`, `updatedat`, `updatedby`, `approvedstatusid`, `approvedby`, `approveddate`, `description`, `image_maintenance`) VALUES
-(24, 1, 'Test', 2, 1, '2019-05-05 00:00:00', '2019-05-05 00:00:00', 2, '5cceaa41e8ebc.jpeg', '2019-05-05 09:17:54', 'admin', NULL, NULL, 2, 'admin', '2019-05-05 02:18:56', NULL, NULL);
+(28, 2, 'Test', 2, 2, NULL, NULL, 3, NULL, '2019-05-06 12:26:43', 'admin', NULL, NULL, 1, NULL, NULL, NULL, '5cd02800d4aed.jpeg'),
+(30, 1, 'user', 1, 1, '2019-05-06 00:00:00', '2019-05-06 00:00:00', 2, '5cd02f03c6cc0.jpeg', '2019-05-06 12:56:37', 'user', NULL, NULL, 2, 'admin', '2019-05-06 06:18:19', NULL, NULL),
+(27, 2, 'Test', 2, 2, NULL, NULL, 3, '5cd02714b7b08.jpeg', '2019-05-06 12:23:51', 'admin', NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(31, 2, 'user', 1, 1, NULL, NULL, 1, NULL, '2019-05-06 12:59:34', 'user', NULL, NULL, 1, NULL, NULL, NULL, '5cd02fb5ce028.jpeg'),
+(25, 1, 'Test', 1, 1, '2019-05-06 00:00:00', '2019-05-06 00:00:00', 2, '5cd01d62db6f1.jpeg', '2019-05-06 11:41:24', 'admin', NULL, NULL, 2, 'admin', '2019-05-06 05:27:38', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -256,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `units` (
   `statusid` int(11) NOT NULL DEFAULT '1',
   `blokid` int(11) DEFAULT '0',
   PRIMARY KEY (`unitid`)
-) ENGINE=MyISAM AUTO_INCREMENT=91 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=92 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `units`

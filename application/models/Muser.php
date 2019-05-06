@@ -368,7 +368,7 @@ class Muser extends CI_Model{
 		}
 	}
 
-	public function getrequest($username = null){
+	public function getrequest($username = null,$all =null){
 		$this->db->select('requestdetails.*');
 		$this->db->select('requesttypes.requesttypename');
 		$this->db->select('unittypes.unittypename');
@@ -382,7 +382,9 @@ class Muser extends CI_Model{
 		$this->db->join('approvalstatus','approvalstatus.approvalstatusid = requestdetails.approvedstatusid', 'left');
 		if(!empty($username)){
 			$this->db->where('requestdetails.username', $username);
-			$this->db->where('requestdetails.approvedstatusid', REQUESTSTATUS_PENDING);
+			if($all != null){
+				$this->db->where('requestdetails.approvedstatusid', REQUESTSTATUS_PENDING);
+			}
 		}
 		return $this->db->get('requestdetails')->result_array();
 	}
@@ -448,6 +450,11 @@ class Muser extends CI_Model{
 		$this->db->where('blokid',$blokid);
 		// var_dump($this->db->last_query());
 		return $this->db->get('units')->result_array();
+	}
+
+	public function getparentblok()
+	{
+		return $this->db->get('parentbloks')->result_array();
 	}
 
 	

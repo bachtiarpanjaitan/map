@@ -59,8 +59,8 @@ if(!islogin()){
 						aria-controls="nav-home" aria-selected="true">Blok Info</a>
 					<!-- <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
 						aria-controls="nav-profile" aria-selected="false">Order Info</a> -->
-					<a class="nav-item nav-link" id="nav-request-tab" data-toggle="tab" href="#nav-request" role="tab" aria-controls="nav-request" aria-selected="false">Request Unit</a>
-                    <a class="nav-item nav-link" id="nav-maintenance-tab" data-toggle="tab" href="#nav-maintenance" role="tab" aria-controls="nav-maintenance" aria-selected="false">Request Maintenance</a>
+					<a class="nav-item nav-link" id="nav-request-tab" data-id="1" data-toggle="tab" href="#nav-request" role="tab" aria-controls="nav-request" aria-selected="false">Request Unit</a>
+                    <a class="nav-item nav-link" id="nav-maintenance-tab" data-id="2" data-toggle="tab" href="#nav-maintenance" role="tab" aria-controls="nav-maintenance" aria-selected="false">Request Maintenance</a>
 				</div>
 			</nav>
 			<div class="tab-content" id="nav-tabContent">
@@ -135,7 +135,7 @@ if(!islogin()){
 									value="<?= $edit?$request['requesttypeid']:REQUESTTYPE_NEW ?>">
 								<div class="form-group">
 									<label for="">Jenis Unit</label>
-									<select name="unittypeid" id="unittypeid" class="form-control">
+									<select name="unittypeid" id="unittypeid" class="unittypeid form-control">
                                         <option value="">Pilih Jenis Unit</option>
 										<?php  foreach ($unittypes as $data) { ?>
 										<option
@@ -199,7 +199,7 @@ if(!islogin()){
 										<div class="col-md-6">
 											<div class="form-group">
 												<label for="">Surat Keterangan Nikah</label>
-												<div class="dropzone dropzonearea" id="imageupload"></div>
+												<div class="dropzone imageupload dropzonearea" id="imageupload"></div>
 												<div id="template">
 													<div class="dz-preview dz-file-preview" id="dz-preview-template">
 														<div class="dz-details">
@@ -214,14 +214,14 @@ if(!islogin()){
 														</div>
 													</div>
 												</div>
-												<input type="hidden" id="images"
+												<input type="hidden" id="images" class="cimages"
 													value="<?= $edit?$request['marriagecertificate']:'' ?>">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<label for="">Foto Terpilih</label>
-											<div id="imgthumbnail"><img
-													src="<?= ASSETS ?>images/<?= $edit?$request['marriagecertificate']: '' ?>"
+											<div id="imgthumbnail" class="imgthumbnail"><img
+													src="<?= ASSETS ?>request/<?= $edit?$request['marriagecertificate']: '' ?>"
 													width="1500" height="125px" class="img img-responsive"
 													alt=""></div>
 										</div>
@@ -239,7 +239,83 @@ if(!islogin()){
 				<!-- END UNIT INFO -->
                 
                 <div class="tab-pane fade show" id="nav-maintenance" role="tabpanel" aria-labelledby="nav-maintenance-tab">
-                    test
+                   <br>
+					<div class="container container-fluid">
+						<form class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="">Jenis Unit</label>
+									<select name="unittypeid" id="mainunittypeid" class="unittypeid form-control">
+                                        <option value="">Pilih Jenis Unit</option>
+										<?php  foreach ($unittypes as $data) { ?>
+										<option
+											<?php if($edit && $data['unittypeid'] == $request['unittypeid']){ echo 'selected';}?>
+											value="<?= $data['unittypeid'] ?>"><?= $data['unittypename'] ?></option>
+										<?php } ?>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="">Unit</label>
+									<select class="form-control unitid" id="unitid" >
+
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<?php  if(!isCustomer()){ ?>
+								<div class="form-group">
+									<label for="">Pegawai</label>
+									<select name="" id="mainusername" class="form-control">
+										<?php  foreach ($users as $data) { ?>
+										<?php if($data['blokid'] == 0){continue;}  ?>
+										<option
+											<?php if($edit && $data['username'] == $request['username']){ echo 'selected';}?>
+											value="<?= $data['username'] ?>"><?= $data['username'] ?></option>
+										<?php } ?>
+									</select>
+								</div>
+								<?php } ?>
+								<div class="form-group">
+									<div class="row col-md-12">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="">Lampiran Foto</label>
+												<div class="dropzone imageupload dropzonearea" id="imageupload"></div>
+												<div id="template">
+													<div class="dz-preview dz-file-preview" id="dz-preview-template">
+														<div class="dz-details">
+															<div class="dz-filename"><span data-dz-name></span></div>
+															<div class="dz-size" data-dz-size></div>
+														</div>
+														<div class="dz-progress"><span class="dz-upload"
+																data-dz-uploadprogress></span></div>
+														<div class="dz-success-mark"><span></span></div>
+														<div class="dz-error-mark"><span></span></div>
+														<div class="dz-error-message"><span data-dz-errormessage></span>
+														</div>
+													</div>
+												</div>
+												<input type="hidden" id="images" class="cimages"
+													value="<?= $edit?$request['image_maintenance']:'' ?>">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<label for="">Foto Terpilih</label>
+											<div id="imgthumbnail" class="imgthumbnail"><img
+													src="<?= ASSETS ?>request/<?= $edit?$request['image_maintenance']: '' ?>"
+													width="1500" height="125px" class="img img-responsive"
+													alt=""></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div>
+									<button type="button" id="reqbtnsave" class="btn btn-primary btn-lg">Save</button>
+								</div>
+							</div>
+						</form>
+					</div>
                 </div>
 			</div>
 			<div class="modal-footer">
@@ -289,7 +365,7 @@ if(!islogin()){
 					$('#xmap').append(content);
 					$('.objunit').click(function (e) {
 						clear();
-                        $('#unittypeid').attr('disabled', 'disabled');
+                        $('.unittypeid').attr('disabled', 'disabled');
 						var title = $(this).data('title');
 						blok = $(this).data('blok');
 						if ('<?= getuserlogin('blokid') ?>' != '<?= BLOK_ADMIN ?>') {
@@ -308,12 +384,11 @@ if(!islogin()){
 						$('#unittitle').val(title);
 						$('#description').val(desc);
                         $('#blokid').val(blokid);
-                        $('#blokid').val(blokid);
                         // console.log(dormitory);
                         if(dormitory == '0'){
-                            $('#unittypeid').val(<?= UNITTYPE_REGULER ?>);
+                            $('.unittypeid').val(<?= UNITTYPE_REGULER ?>);
                         }else{
-                            $('#unittypeid').val(<?= UNITTYPE_DORMITORY ?>);
+                            $('.unittypeid').val(<?= UNITTYPE_DORMITORY ?>);
                         }
 
                         $.ajax({
@@ -329,13 +404,13 @@ if(!islogin()){
 
                                 for(var i = 0; i < Object.keys(response.data).length; i++)
                                 {
-                                    console.log(response.data[i]['fullname']);
+                                    console.log(response);
                                     if(response.data[i]['statusid'] == <?= STATUS_ALLOWORDER ?>){
-                                        append += '<div class="center-text" style="margin: 10px;padding:5px;width: 50px; height:50px;background-color:gainsboro" data-toggle="tooltip" title="'+ response.data[i]['fullname'] +'  Tlp:'+response.data[i]['phone']+'"><small>'+ response.data[i]['unittitle'] +'</small></div>'
+                                        append += '<div class="center-text" style="margin: 10px;padding:5px;width: 50px; height:50px;background-color:gainsboro" data-toggle="tooltip" title="'+ response.data[i]['statusname'] +'"><small>'+ response.data[i]['unittitle'] +'</small></div>'
                                     }else if(response.data[i]['statusid'] == <?= STATUS_ONBOOKING ?>){
-                                        append += '<div class="center-text" style="margin: 10px;padding:5px;width: 50px; height:50px;background-color:green" data-toggle="tooltip" title="'+ response.data[i]['fullname'] +' Tlp : '+response.data[i]['phone']+'"><small>'+ response.data[i]['unittitle'] +'</small></div>'
+                                        append += '<div class="center-text" style="margin: 10px;padding:5px;width: 50px; height:50px;background-color:green" data-toggle="tooltip" title="'+ response.data[i]['statusname'] +'"><small>'+ response.data[i]['unittitle'] +'</small></div>'
                                     }else if(response.data[i]['statusid'] == <?= STATUS_MAINTENANCE ?>){
-                                        append += '<div class="center-text" style="margin: 10px;padding:5px;width: 50px; height:50px;background-color:brown" data-toggle="tooltip" title="'+ response.data[i]['fullname'] +' Tlp:'+response.data[i]['phone']+'"><small>'+ response.data[i]['unittitle'] +'</small></div>'
+                                        append += '<div class="center-text" style="margin: 10px;padding:5px;width: 50px; height:50px;background-color:brown" data-toggle="tooltip" title="'+ response.data[i]['statusname'] +'"><small>'+ response.data[i]['unittitle'] +'</small></div>'
                                     }
                                    
                                 }
@@ -490,7 +565,7 @@ if(!islogin()){
 
 	var uunittype = null;
 	Dropzone.autoDiscover = false;
-		$("#imageupload").dropzone({
+		$(".imageupload").dropzone({
 			url: "<?= site_url('api/uploadimage') ?>",
 			paramName: 'base64',
 			clickable: true,
@@ -524,11 +599,11 @@ if(!islogin()){
 							var val = JSON.parse(response);
 							// console.log(val);
 							if (val.success == true) {
-								$('#imgthumbnail').empty();
-								$('#images').val(val.filename);
-								var content = '<img src="<?= ASSETS ?>images/' + val.filename +
+								$('.imgthumbnail').empty();
+								$('.cimages').val(val.filename);
+								var content = '<img src="<?= ASSETS ?>request/' + val.filename +
 									'" class="img-responsive img-thumbnail">';
-								$('#imgthumbnail').append(content);
+								$('.imgthumbnail').append(content);
 							}
 						}
 					});
@@ -573,7 +648,7 @@ if(!islogin()){
 		});
 
 		$('#unittypeid').change(function (e) {
-			uunittype = $('#unittypeid').val();
+			uunittype = $('.unittypeid').val();
 		});
 
 		$('#btnsave').click(function (e) {
@@ -589,7 +664,35 @@ if(!islogin()){
 					'username': $('#username').val(),
 					'checkindate': $('#checkindate').val(),
 					'checkoutdate': $('#checkoutdate').val(),
-					'images': $('#images').val(),
+					'images': $('.cimages').val(),
+					'id': $('#requestdetailid').val(),
+					'edit': <?= $edit?'1': '0' ?>
+				},
+				dataType: "JSON",
+				success: function (response) {
+					if (response.success == true) {
+						swal('success', 'Data Berhasil Disimpan', 'success').then((val) => {
+							location.reload();
+						});
+					} else {
+						swal('error', response.message, 'error');
+					}
+				}
+			});
+		});
+
+		$('#reqbtnsave').click(function (e) {
+			$.ajax({
+				type: "POST",
+				url: "<?= site_url('api/saverequestdetail') ?>",
+				data: {
+					'requesttypeid': $('#requesttypeid').val(),
+					'unittypeid': $('#mainunittypeid').val(),
+					'blokid': $('#blokid').val(),
+					'unitid': $('#unitid').val(),
+					'telepon': $('#telepon').val(),
+					'username': $('#mainusername').val(),
+					'images': $('.cimages').val(),
 					'id': $('#requestdetailid').val(),
 					'edit': <?= $edit?'1': '0' ?>
 				},
@@ -640,11 +743,19 @@ if(!islogin()){
 </script>
 
 <script>
-    $('#unittypeid').change(function (e) { 
-    if($(this).val() == <?= UNITTYPE_DORMITORY ?>){
-        $('#blokid').attr('disabled', 'disabled');
-    }else{
-        $('#blokid').removeAttr('disabled');
-    }        
+    $('.unittypeid').change(function (e) { 
+		if($(this).val() == <?= UNITTYPE_DORMITORY ?>){
+			$('#blokid').attr('disabled', 'disabled');
+		}else{
+			$('#blokid').removeAttr('disabled');
+		}        
     });
+
+	$('#nav-maintenance-tab').click(function (e) { 
+		$('#requesttypeid').val($(this).data('id'));
+	});
+
+	$('#nav-request-tab').click(function (e) { 
+		$('#requesttypeid').val($(this).data('id'));
+	});
 </script>
