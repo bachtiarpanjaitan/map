@@ -33,8 +33,24 @@ if(!islogin()){
 </div>
 
 <?php $this->load->view('user_footer.php') ?>
+<script src="<?= ASSETS ?>js/7zip.js"></script>
+<script src="<?= ASSETS ?>js/datatable-button.js"></script>
+<script src="<?= ASSETS ?>js/html5-button.js"></script>
+<script src="<?= ASSETS ?>js/pdfmake.js"></script>
+<script src="<?= ASSETS ?>js/print.js"></script>
+<script src="<?= ASSETS ?>js/vfs-fonts.js"></script>
 <script>
-    $('#table').dataTable({});
+    $('#table').dataTable({
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+        dom: 'Bfrtip',
+        deferRender:  true,
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        extend: 'print',
+        orientation: 'landscape',
+        pageSize: 'LEGAL',
+    });
 
     $(document).ready(function () {
         $('.btndelete').click(function (e) { 

@@ -4,7 +4,8 @@ if(!islogin()){
 } ?>
 
 <div>
-    <table class="table table-hover table-responsive" id="table">
+   <div class="table">
+     <table class="table-hover table-responsive" style="width:100%" id="table">
         <thead>
             <th>USERNAME</th>
             <th>TIPE REQUEST</th>
@@ -36,6 +37,7 @@ if(!islogin()){
             <?php  }  ?>
         </tbody>
     </table>
+   </div>
 </div>
 
 <!-- The Modal -->
@@ -70,8 +72,24 @@ if(!islogin()){
 </div>
 
 <?php $this->load->view('user_footer.php') ?>
+<script src="<?= ASSETS ?>js/7zip.js"></script>
+<script src="<?= ASSETS ?>js/datatable-button.js"></script>
+<script src="<?= ASSETS ?>js/html5-button.js"></script>
+<script src="<?= ASSETS ?>js/pdfmake.js"></script>
+<script src="<?= ASSETS ?>js/print.js"></script>
+<script src="<?= ASSETS ?>js/vfs-fonts.js"></script>
 <script>
-    $('#table').dataTable({});
+    $('#table').dataTable({
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+        dom: 'Bfrtip',
+        deferRender:  true,
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        extend: 'print',
+        orientation: 'landscape',
+        pageSize: 'LEGAL',
+    });
     $(document).ready(function () {
         $('#btnapprove').click(function (e) { 
            var id = $('#selectedid').val();

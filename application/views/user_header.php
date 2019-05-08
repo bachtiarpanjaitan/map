@@ -23,6 +23,11 @@
   <link rel="stylesheet" href="<?= ASSETS ?>css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="<?= ASSETS ?>images/favicon.png" />
+  <script src="<?= ASSETS ?>vendors/js/vendor.bundle.base.js"></script>
+  <script src="<?= ASSETS ?>vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="<?= ASSETS ?>vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="<?= ASSETS ?>vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="<?= ASSETS ?>vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
 </head>
 
 <body>

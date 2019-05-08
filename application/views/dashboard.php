@@ -50,7 +50,7 @@ if(!islogin()){
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-            <h5 class="center-text" id="title"></h5>
+            <h2 class="center-text" id="title"></h2>
              <div class="unitperblok row col-md-12"></div>
 			<nav>
 				<div class="nav nav-tabs nav-pills" id="nav-tab" role="tablist">

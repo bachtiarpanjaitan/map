@@ -20,7 +20,6 @@
   <script src="<?= ASSETS ?>js/bootstrap.min.js"></script>
   <script src="<?= ASSETS ?>js/jquery.dataTables.min.js"></script> -->
   <!-- <script src="<?= ASSETS ?>js/swal.js"></script> -->
-  <script src="<?= ASSETS ?>vendors/js/vendor.bundle.base.js"></script>
   <script src="<?= ASSETS ?>vendors/js/vendor.bundle.addons.js"></script>
   <script src="<?= ASSETS ?>js/swal.js"></script>
   <script src="<?= ASSETS ?>vendors/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
